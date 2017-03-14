@@ -7,7 +7,7 @@
 
 namespace PyCuDNN {
     class ConvolutionDescriptor :
-    public RAII< cudnnConvolutionDescriptor_t,
+      public RAII<  cudnnConvolutionDescriptor_t,
                     cudnnCreateConvolutionDescriptor,
                     cudnnDestroyConvolutionDescriptor > {};
 }

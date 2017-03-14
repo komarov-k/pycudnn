@@ -10,8 +10,6 @@ namespace PyCuDNN {
 	template <typename T, Status (*C)(T*), Status (*D)(T)>
 	class RAII {
 
-	private:
-
 		struct Resource {
 			T object;
 
@@ -26,19 +24,17 @@ namespace PyCuDNN {
 
   		std::shared_ptr<Resource> mResource;
 
-  	public:
+  public:
 
-  		RAII() : mResource(new Resource) {}
+  	RAII() : mResource(new Resource) {}
 
-  	public:
+		T get() const {
+			return mResource->object;
+		}
 
-  		T get() const {
-  			return mResource->object;
-  		}
-
-      operator T() const {
-        return mResource->object;
-      }
+    operator T() const {
+      return mResource->object;
+    }
 	};
 }
 

@@ -46,6 +46,7 @@ ext_modules = [
                 ],
             extra_compile_args=[
                 '-std=c++11',
+                '-std=c++1y'
                 ],
             language='c++'
         ),

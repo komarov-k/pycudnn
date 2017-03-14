@@ -23,7 +23,9 @@
 #include "PyCuDNNDirectionMode.hpp"
 #include "PyCuDNNDivNormMode.hpp"
 #include "PyCuDNNDropoutDescriptor.hpp"
+#include "PyCuDNNFilterDescriptor.hpp"
 #include "PyCuDNNHandle.hpp"
+#include "PyCuDNNLRNDescriptor.hpp"
 #include "PyCuDNNLRNMode.hpp"
 #include "PyCuDNNNanPropagation.hpp"
 #include "PyCuDNNOpTensorDescriptor.hpp"
@@ -42,6 +44,1466 @@
 #include "PyCuDNNTensorFormat.hpp"
 
 namespace py = pybind11;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//  PyCuDNN API
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+namespace PyCuDNN {
+
+  auto getVersion ()
+  {
+    return cudnnGetVersion();
+  }
+
+  auto getErrorString ( const Status& status )
+  {
+    return cudnnGetErrorString(status);
+  }
+
+  auto setTensor4dDescriptor (
+    TensorDescriptor& tensorDesc,
+    TensorFormat tensorFormat,
+    DataType dataType,
+    std::tuple<int, int, int, int> tensorDims)
+  {
+    int n = std::get<0>(tensorDims);
+    int c = std::get<1>(tensorDims);
+    int h = std::get<2>(tensorDims);
+    int w = std::get<3>(tensorDims);
+    checkStatus(
+      cudnnSetTensor4dDescriptor(tensorDesc, tensorFormat, dataType, n, c, h, w)
+    );
+  }
+
+  auto setTensor4dDescriptorEx (
+    TensorDescriptor& tensorDesc,
+    DataType dataType,
+    std::tuple<int, int, int, int> tensorDims,
+    std::tuple<int, int, int, int> tensorStrides )
+  {
+    int n = std::get<0>(tensorDims);
+    int c = std::get<1>(tensorDims);
+    int h = std::get<2>(tensorDims);
+    int w = std::get<3>(tensorDims);
+
+    int nS = std::get<0>(tensorStrides);
+    int cS = std::get<1>(tensorStrides);
+    int hS = std::get<2>(tensorStrides);
+    int wS = std::get<3>(tensorStrides);
+
+    checkStatus(
+      cudnnSetTensor4dDescriptorEx(tensorDesc, dataType, n, c, h, w, nS, cS, hS, wS)
+    );
+  }
+
+  auto getTensor4dDescriptor ( TensorDescriptor& tensorDesc )
+  {
+    DataType dataType;
+    std::vector<int> dims({0, 0, 0, 0});
+    std::vector<int> strides({0, 0, 0, 0});
+
+    checkStatus(
+      cudnnGetTensor4dDescriptor(
+        tensorDesc,
+        &dataType,
+        &dims[0],
+        &dims[1],
+        &dims[2],
+        &dims[3],
+        &strides[0],
+        &strides[1],
+        &strides[2],
+        &strides[3]
+      )
+    );
+
+    return std::make_tuple(dataType, dims, strides);
+  }
+
+  auto setTensorNdDescriptor (
+    TensorDescriptor& tensorDesc,
+    DataType dataType,
+    std::vector<int> tensorDims,
+    std::vector<int> tensorStrides )
+  {
+    if (tensorDims.size() != tensorStrides.size())
+      throw std::length_error("tensorDims and tensorStrides must be of the same length");
+
+    checkStatus(
+      cudnnSetTensorNdDescriptor(
+        tensorDesc,
+        dataType,
+        tensorDims.size(),
+        tensorDims.data(),
+        tensorStrides.data()
+      )
+    );
+  }
+
+  auto getTensorNdDescriptor ( TensorDescriptor& tensorDesc)
+  {
+    DataType dataType;
+
+    int numTensorDims;
+    std::vector<int> tensorDims;
+    std::vector<int> tensorStrides;
+
+    const size_t maxTensorDims = 16;
+    int tensorDimsA[maxTensorDims];
+    int tensorStridesA[maxTensorDims];
+
+    checkStatus(
+      cudnnGetTensorNdDescriptor(
+        tensorDesc,
+        maxTensorDims,
+        &dataType,
+        &numTensorDims,
+        tensorDimsA,
+        tensorStridesA
+      )
+    );
+
+    for (int i = 0; i < numTensorDims; i++) {
+      tensorDims.push_back(tensorDimsA[i]);
+      tensorStrides.push_back(tensorStridesA[i]);
+    }
+
+    return std::make_tuple(dataType, tensorDims, tensorStrides);
+  }
+
+  auto transformTensor (
+    const Handle& handle,
+    double alpha,
+    const TensorDescriptor& xDesc,
+    const void* x,
+    double beta,
+    const TensorDescriptor& yDesc,
+    void* y )
+  {
+    checkStatus(
+      cudnnTransformTensor(handle, &alpha, xDesc, x, &beta, yDesc, y)
+    );
+  }
+
+  auto addTensor (
+    const Handle& handle,
+    double alpha,
+    const TensorDescriptor& xDesc,
+    const void* x,
+    double beta,
+    const TensorDescriptor& yDesc,
+    void* y )
+  {
+    checkStatus(
+      cudnnAddTensor(handle, &alpha, xDesc, x, &beta, yDesc, y)
+    );
+  }
+
+  auto opTensor (
+    const Handle& handle,
+    const OpTensorDescriptor& opTensorDesc,
+    double alphaOne,
+    const TensorDescriptor& aDesc,
+    const void* A,
+    double alphaTwo,
+    const TensorDescriptor& bDesc,
+    const void* B,
+    double beta,
+    const TensorDescriptor& cDesc,
+    void* C )
+  {
+    checkStatus(
+      cudnnOpTensor(handle, opTensorDesc, &alphaOne, aDesc, A, &alphaTwo, bDesc, B, &beta, cDesc, C)
+    );
+  }
+
+  auto setTensor (
+    const Handle& handle,
+    const TensorDescriptor& yDesc,
+    void* y,
+    int value )
+  {
+    checkStatus(
+      cudnnSetTensor(handle, yDesc, y, &value)
+    );
+  }
+
+  auto scaleTensor (
+    const Handle& handle,
+    const TensorDescriptor& yDesc,
+    void *y,
+    double alpha )
+  {
+    checkStatus(
+      cudnnScaleTensor(handle, yDesc, y, &alpha)
+    );
+  }
+
+  void setFilter4dDescriptor (
+    FilterDescriptor& filterDesc,
+    const DataType& dataType,
+    const TensorFormat& tensorFormat,
+    std::tuple<int,int,int,int> tensorKCHW )
+  {
+    checkStatus(
+      cudnnSetFilter4dDescriptor(
+        filterDesc,
+        dataType,
+        tensorFormat,
+        std::get<0>(tensorKCHW),
+        std::get<1>(tensorKCHW),
+        std::get<2>(tensorKCHW),
+        std::get<3>(tensorKCHW)
+      )
+    );
+  }
+
+  auto getFilter4dDescriptor ( FilterDescriptor& filterDesc ) {
+    DataType dataType;
+    TensorFormat tensorFormat;
+    int K, C, H, W;
+
+    checkStatus(
+      cudnnGetFilter4dDescriptor(
+        filterDesc,
+        &dataType,
+        &tensorFormat,
+        &K,
+        &C,
+        &H,
+        &W
+      )
+    );
+
+    return std::make_tuple(dataType, tensorFormat, std::vector<int>({K, C, H, W}));
+  }
+
+  void setFilterNdDescriptor (
+    FilterDescriptor& filterDesc,
+    const DataType& dataType,
+    const TensorFormat& tensorFormat,
+    std::vector<int> filterDims )
+  {
+    checkStatus(
+      cudnnSetFilterNdDescriptor(
+        filterDesc,
+        dataType,
+        tensorFormat,
+        filterDims.size(),
+        filterDims.data()
+      )
+    );
+  }
+
+  auto getFilterNdDescriptor( FilterDescriptor& filterDesc ) {
+    DataType dataType;
+    TensorFormat tensorFormat;
+
+    int numFilterDims = 0;
+    std::vector<int> filterDims;
+
+    const size_t maxFilterDims = 16;
+    int filterDimsA[maxFilterDims];
+
+    checkStatus(
+      cudnnGetFilterNdDescriptor(
+        filterDesc,
+        maxFilterDims,
+        &dataType,
+        &tensorFormat,
+        &numFilterDims,
+        filterDimsA
+      )
+    );
+
+    for (int i = 0; i < numFilterDims; i++) {
+      filterDims.push_back(filterDimsA[i]);
+    }
+
+    return std::make_tuple(dataType, tensorFormat, filterDims);
+  }
+
+  auto setConvolution2dDescriptor (
+    const ConvolutionDescriptor& convDesc,
+    int padH,
+    int padW,
+    int u,
+    int v,
+    int upscaleX,
+    int upscaleY,
+    const ConvolutionMode& mode )
+  {
+
+    checkStatus(
+      cudnnSetConvolution2dDescriptor(
+        convDesc.get(),
+        padH,
+        padW,
+        u, v,
+        upscaleX,
+        upscaleY,
+        mode
+      )
+    );
+  }
+
+  auto getConvolution2dDescriptor( ConvolutionDescriptor& convDesc ) {
+    std::tuple<int,int,int,int,int,int,ConvolutionMode> result;
+
+    checkStatus(
+      cudnnSetConvolution2dDescriptor(
+        convDesc,
+        std::get<0>(result),
+        std::get<1>(result),
+        std::get<2>(result),
+        std::get<3>(result),
+        std::get<4>(result),
+        std::get<5>(result),
+        std::get<6>(result)
+      )
+    );
+
+    return result;
+  }
+
+  auto getConvolution2dForwardOutputDim(
+    ConvolutionDescriptor& convDesc,
+    TensorDescriptor& inputTensorDesc,
+    FilterDescriptor& filterDesc)
+  {
+
+    std::tuple<int,int,int,int> result;
+
+    checkStatus(
+      cudnnGetConvolution2dForwardOutputDim(
+        convDesc,
+        inputTensorDesc,
+        filterDesc,
+        &std::get<0>(result),
+        &std::get<1>(result),
+        &std::get<2>(result),
+        &std::get<3>(result)
+      )
+    );
+
+    return result;
+  }
+
+  void setConvolutionNdDescriptor(
+    ConvolutionDescriptor& convDesc,
+    std::vector<int> convPads,
+    std::vector<int> filtStrides,
+    std::vector<int> convUpscales,
+    ConvolutionMode& convMode,
+    DataType& dataType )
+  {
+
+    if ((convPads.size() != filtStrides.size()) ||
+        (convPads.size() != convUpscales.size())) {
+      throw std::length_error("convPads and filtStrides and convUpscales must be of the same length");
+    }
+
+    checkStatus(
+      cudnnSetConvolutionNdDescriptor(
+        convDesc,
+        convPads.size(),
+        convPads.data(),
+        filtStrides.data(),
+        convUpscales.data(),
+        convMode,
+        dataType
+      )
+    );
+  }
+
+  auto getConvolutionNdDescriptor ( ConvolutionDescriptor& convDesc ) {
+    const int maxDims = 16;
+    int padsArray[maxDims];
+    int stridesArray[maxDims];
+    int upscalesArray[maxDims];
+
+    int numDims = 0;
+    std::vector<int> pads;
+    std::vector<int> strides;
+    std::vector<int> upscales;
+
+    ConvolutionMode mode;
+    DataType dataType;
+
+    checkStatus(
+      cudnnGetConvolutionNdDescriptor(
+        convDesc,
+        maxDims,
+        &numDims,
+        padsArray,
+        stridesArray,
+        upscalesArray,
+        &mode,
+        &dataType
+      )
+    );
+
+    for (int i = 0; i < numDims; i++) {
+      pads.push_back(padsArray[i]);
+      strides.push_back(stridesArray[i]);
+      upscales.push_back(upscalesArray[i]);
+    }
+
+    return std::make_tuple(pads, strides, upscales, mode, dataType);
+  }
+
+  auto getConvolutionNdForwardOutputDim (
+    ConvolutionDescriptor& convDesc,
+    TensorDescriptor& inputTensorDesc,
+    FilterDescriptor& filterDesc,
+    int numDims )
+  {
+
+    std::vector<int> tensorOuputDims;
+    for (int i = 0; i < numDims; i++)
+      tensorOuputDims.push_back(0);
+
+    checkStatus(
+      cudnnGetConvolutionNdForwardOutputDim(
+        convDesc,
+        inputTensorDesc,
+        filterDesc,
+        numDims,
+        tensorOuputDims.data()
+      )
+    );
+
+    return tensorOuputDims;
+  }
+
+  auto findConvolutionForwardAlgorithm (
+    Handle& handle,
+    TensorDescriptor& xDesc,
+    FilterDescriptor& wDesc,
+    ConvolutionDescriptor& convDesc,
+    TensorDescriptor& yDesc,
+    int requestedAlgoCount = 32 )
+  {
+    const int maxAlgoCount = 32;
+    if (requestedAlgoCount > maxAlgoCount) {
+      throw std::range_error("exceeding max algorithm count (32)");
+    }
+
+    int returnedAlgoCount;
+    ConvolutionFwdAlgoPerf perfResultsArray[32];
+
+    checkStatus(
+      cudnnFindConvolutionForwardAlgorithm(
+        handle,
+        xDesc,
+        wDesc,
+        convDesc,
+        yDesc,
+        requestedAlgoCount,
+        &returnedAlgoCount,
+        perfResultsArray
+      )
+    );
+
+    std::vector<ConvolutionFwdAlgoPerf> perfResults;
+    for (int i = 0; i < returnedAlgoCount; i++) {
+      perfResults.push_back(perfResultsArray[i]);
+    }
+
+    return perfResults;
+  }
+
+  auto findConvolutionForwardAlgorithmEx (
+    Handle& handle,
+    TensorDescriptor& xDesc,
+    const void* x,
+    FilterDescriptor& wDesc,
+    const void* w,
+    ConvolutionDescriptor convDesc,
+    TensorDescriptor& yDesc,
+    void *y,
+    const int requestedAlgoCount,
+    void* workSpace,
+    size_t workSpaceSizeInBytes)
+  {
+
+    const int maxAlgoCount = 32;
+    if (requestedAlgoCount > maxAlgoCount) {
+      throw std::range_error("exceeding max algorithm count (32)");
+    }
+
+    int returnedAlgoCount;
+    ConvolutionFwdAlgoPerf perfResultsArray[32];
+
+    checkStatus(
+      cudnnFindConvolutionForwardAlgorithmEx(
+        handle,
+        xDesc,
+        x,
+        wDesc,
+        w,
+        convDesc,
+        yDesc,
+        y,
+        requestedAlgoCount,
+        &returnedAlgoCount,
+        perfResultsArray,
+        workSpace,
+        workSpaceSizeInBytes
+      )
+    );
+
+    std::vector<ConvolutionFwdAlgoPerf> perfResults;
+    for (int i = 0; i < returnedAlgoCount; i++) {
+      perfResults.push_back(perfResultsArray[i]);
+    }
+
+    return perfResults;
+  }
+
+  auto getConvolutionForwardAlgorithm (
+    Handle& handle,
+    TensorDescriptor& xDesc,
+    FilterDescriptor& wDesc,
+    ConvolutionDescriptor& convDesc,
+    TensorDescriptor& yDesc,
+    ConvolutionFwdPreference& preference,
+    size_t memoryLimitInbytes )
+  {
+    ConvolutionFwdAlgo result;
+
+    checkStatus(
+      cudnnGetConvolutionForwardAlgorithm(
+        handle,
+        xDesc,
+        wDesc,
+        convDesc,
+        yDesc,
+        preference,
+        memoryLimitInbytes,
+        &result)
+    );
+
+    return result;
+  }
+
+  auto convolutionForward (
+    Handle& handle,
+    double alpha,
+    TensorDescriptor& xDesc,
+    const void* x,
+    FilterDescriptor& wDesc,
+    const void* w,
+    ConvolutionDescriptor& convDesc,
+    ConvolutionFwdAlgo& algo,
+    void* workSpace,
+    size_t workSpaceSizeInBytes,
+    double beta,
+    TensorDescriptor& yDesc,
+    void* y )
+  {
+    checkStatus(
+      cudnnConvolutionForward(
+        handle,
+        &alpha,
+        xDesc,
+        x,
+        wDesc,
+        w,
+        convDesc,
+        algo,
+        workSpace,
+        workSpaceSizeInBytes,
+        &beta,
+        yDesc,
+        y)
+    );
+  }
+
+  void convolutionBackwardBias (
+    Handle& handle,
+    double alpha,
+    TensorDescriptor& dyDesc,
+    const void* dy,
+    double beta,
+    TensorDescriptor& dbDesc,
+    void *db )
+  {
+    checkStatus(
+      cudnnConvolutionBackwardBias(
+        handle,
+        &alpha,
+        dyDesc,
+        dy,
+        &beta,
+        dbDesc,
+        db
+      )
+    );
+  }
+
+  auto findConvolutionBackwardFilterAlgorithm (
+    const Handle& handle,
+    const TensorDescriptor& xDesc,
+    const TensorDescriptor& dyDesc,
+    const ConvolutionDescriptor& convDesc,
+    const FilterDescriptor& dwDesc,
+    const int requestedAlgoCount = 32 )
+  {
+    const int maxAlgoCount = 32;
+    if (requestedAlgoCount > maxAlgoCount) {
+      throw std::range_error("exceeding max algorithm count (32)");
+    }
+
+    int returnedAlgoCount;
+    ConvolutionBwdFilterAlgoPerf perfResultsArray[32];
+
+    checkStatus(
+      cudnnFindConvolutionBackwardFilterAlgorithm(
+        handle,
+        xDesc,
+        dyDesc,
+        convDesc,
+        dwDesc,
+        requestedAlgoCount,
+        &returnedAlgoCount,
+        perfResultsArray
+      )
+    );
+
+    std::vector<ConvolutionBwdFilterAlgoPerf> perfResults;
+    for (int i = 0; i < returnedAlgoCount; i++) {
+      perfResults.push_back(perfResultsArray[i]);
+    }
+
+    return perfResults;
+  }
+
+  auto findConvolutionBackwardFilterAlgorithmEx (
+    const Handle&                         handle,
+    const TensorDescriptor&               xDesc,
+    const void                            *x,
+    const TensorDescriptor&               dyDesc,
+    const void                            *y,
+    const ConvolutionDescriptor&          convDesc,
+    const FilterDescriptor&               dwDesc,
+    void                                  *dw,
+    const int                             requestedAlgoCount,
+    void                                  *workSpace,
+    size_t                                workSpaceSizeInBytes )
+  {
+    const int maxAlgoCount = 32;
+    if (requestedAlgoCount > maxAlgoCount) {
+      throw std::range_error("exceeding max algorithm count (32)");
+    }
+
+    int returnedAlgoCount;
+    ConvolutionBwdFilterAlgoPerf perfResultsArray[32];
+
+    checkStatus(
+      cudnnFindConvolutionBackwardFilterAlgorithmEx(
+        handle,
+        xDesc,
+        x,
+        dyDesc,
+        y,
+        convDesc,
+        dwDesc,
+        dw,
+        requestedAlgoCount,
+        &returnedAlgoCount,
+        perfResultsArray,
+        workSpace,
+        workSpaceSizeInBytes
+      )
+    );
+
+    std::vector<ConvolutionBwdFilterAlgoPerf> perfResults;
+    for (int i = 0; i < returnedAlgoCount; i++) {
+      perfResults.push_back(perfResultsArray[i]);
+    }
+
+    return perfResults;
+  }
+
+  auto getConvolutionBackwardFilterWorkspaceSize (
+    const Handle&                       handle,
+    const TensorDescriptor&             xDesc,
+    const TensorDescriptor&             dyDesc,
+    const ConvolutionDescriptor&        convDesc,
+    const FilterDescriptor              gradDesc,
+    ConvolutionBwdFilterAlgo            algo,
+    size_t                             *sizeInBytes )
+  {
+
+    // TODO: implement this
+  }
+
+  auto convolutionBackwardFilter(
+    const Handle&                       handle,
+    const void                         *alpha,
+    const TensorDescriptor&             xDesc,
+    const void                         *x,
+    const TensorDescriptor&             dyDesc,
+    const void                         *dy,
+    const ConvolutionDescriptor&        convDesc,
+    ConvolutionBwdFilterAlgo            algo,
+    void                               *workSpace,
+    size_t                              workSpaceSizeInBytes,
+    const void                         *beta,
+    const FilterDescriptor              dwDesc,
+    void                               *dw )
+  {
+
+    // TODO: implement this
+  }
+
+
+  auto findConvolutionBackwardDataAlgorithm (
+    const Handle&                       handle,
+    const FilterDescriptor&             wDesc,
+    const TensorDescriptor&             dyDesc,
+    const ConvolutionDescriptor&        convDesc,
+    const TensorDescriptor&             dxDesc,
+    const int                           requestedAlgoCount,
+    int                                *returnedAlgoCount,
+    ConvolutionBwdDataAlgoPerf         *perfResults )
+  {
+    // TODO: implement this...
+  }
+
+  auto findConvolutionBackwardDataAlgorithmEx (
+    const Handle&                       handle,
+    const FilterDescriptor&             wDesc,
+    const void                         *w,
+    const TensorDescriptor&             dyDesc,
+    const void                         *dy,
+    const ConvolutionDescriptor&        convDesc,
+    const TensorDescriptor&             dxDesc,
+    void                               *dx,
+    const int                           requestedAlgoCount,
+    int                                *returnedAlgoCount,
+    ConvolutionBwdDataAlgoPerf         *perfResults,
+    void                               *workSpace,
+    size_t                              workSpaceSizeInBytes )
+  {
+    // TODO: implement this...
+  }
+
+  auto getConvolutionBackwardDataAlgorithm (
+    const Handle&                       handle,
+    const FilterDescriptor&             wDesc,
+    const TensorDescriptor&             dyDesc,
+    const ConvolutionDescriptor&        convDesc,
+    const TensorDescriptor&             dxDesc,
+    const ConvolutionBwdDataPreference& preference,
+    size_t                              memoryLimitInBytes,
+    const ConvolutionBwdDataAlgo&      algo )
+  {
+    // TODO: implement this...
+  }
+
+  auto getConvolutionBackwardDataWorkspaceSize (
+    const Handle&                       handle,
+    const FilterDescriptor&             wDesc,
+    const TensorDescriptor&             dyDesc,
+    const ConvolutionDescriptor&        convDesc,
+    const TensorDescriptor&             dxDesc,
+    const ConvolutionBwdDataAlgo&       algo,
+    size_t                             *sizeInBytes )
+  {
+    // TODO: implement this...
+  }
+
+  auto convolutionBackwardData (
+    const Handle&                       handle,
+    const void                         *alpha,
+    const FilterDescriptor&             wDesc,
+    const void                         *w,
+    const TensorDescriptor&             dyDesc,
+    const void                         *dy,
+    const ConvolutionDescriptor&        convDesc,
+    const ConvolutionBwdDataAlgo&       algo,
+    void                               *workSpace,
+    size_t                              workSpaceSizeInBytes,
+    const void                         *beta,
+    const TensorDescriptor&             dxDesc,
+    void                               *dx )
+  {
+    // TODO: implement this...
+  }
+
+  auto softmaxForward (
+    const Handle&                       handle,
+    const SoftmaxAlgorithm&             algo,
+    const SoftmaxMode&                  mode,
+    const void                         *alpha,
+    const TensorDescriptor&             xDesc,
+    const void                         *x,
+    const void                         *beta,
+    const TensorDescriptor&             yDesc,
+    void                               *y )
+  {
+    // TODO: implement this...
+  }
+
+  auto softmaxBackward (
+    const Handle&                       handle,
+    const SoftmaxAlgorithm&             algo,
+    const SoftmaxMode&                  mode,
+    const void                         *alpha,
+    const TensorDescriptor&             yDesc,
+    const void                         *y,
+    const TensorDescriptor&             dyDesc,
+    const void                         *dy,
+    const void                         *beta,
+    const TensorDescriptor&             dxDesc,
+    void                               *dx )
+  {
+    // TODO: implement this...
+  }
+
+  auto setPooling2dDescriptor (
+    PoolingDescriptor                   poolingDesc,
+    PoolingMode&                        mode,
+    const NanPropagation&               maxpoolingNanOpt,
+    int                                 windowHeight,
+    int                                 windowWidth,
+    int                                 verticalPadding,
+    int                                 horizontalPadding,
+    int                                 verticalStride,
+    int                                 horizontalStride )
+  {
+    // TODO: implement this...
+  }
+
+  auto getPooling2dDescriptor (
+    const PoolingDescriptor             poolingDesc,
+    PoolingMode&                       mode,
+    const NanPropagation&              maxpoolingNanOpt,
+    int                                *windowHeight,
+    int                                *windowWidth,
+    int                                *verticalPadding,
+    int                                *horizontalPadding,
+    int                                *verticalStride,
+    int                                *horizontalStride )
+  {
+    // TODO: implement this...
+  }
+
+  auto setPoolingNdDescriptor (
+    PoolingDescriptor                   poolingDesc,
+    const PoolingMode&                  mode,
+    const NanPropagation&         maxpoolingNanOpt,
+    int                                 nbDims,
+    const int                           windowDimA[],
+    const int                           paddingA[],
+    const int                           strideA[] )
+  {
+    // TODO: implement this...
+  }
+
+  auto getPoolingNdDescriptor (
+    const PoolingDescriptor             poolingDesc,
+    int                                 nbDimsRequested,
+    PoolingMode&                       mode,
+    const NanPropagation&              maxpoolingNanOpt,
+    int                                *nbDims,
+    int                                 windowDimA[],
+    int                                 paddingA[],
+    int                                 strideA[] )
+  {
+    // TODO: implement this...
+  }
+
+  // m.def("cudnnDestroyPoolingDescriptor", ...) - Use PoolingDescriptor instead
+  // TODO: throw exception saying exactly that
+
+  auto getPoolingNdForwardOutputDim (
+    const PoolingDescriptor             poolingDesc,
+    const TensorDescriptor&             inputTensorDesc,
+    int                                 nbDims,
+    int                                 outputTensorDimA[] )
+  {
+    // TODO: implement this...
+  }
+
+  auto getPooling2dForwardOutputDim (
+    const PoolingDescriptor             poolingDesc,
+    const TensorDescriptor&             inputTensorDesc,
+    int                                *n,
+    int                                *c,
+    int                                *h,
+    int                                *w )
+  {
+    // TODO: implement this...
+  }
+
+  auto poolingForward (
+    const Handle&                       handle,
+    const PoolingDescriptor             poolingDesc,
+    const void                         *alpha,
+    const TensorDescriptor&             xDesc,
+    const void                         *x,
+    const void                         *beta,
+    const TensorDescriptor&             yDesc,
+    void                               *y )
+  {
+    // TODO: implement this...
+  }
+
+/* Function to perform backward pooling */
+  auto poolingBackward (
+    const Handle&                       handle,
+    const PoolingDescriptor             poolingDesc,
+    const void                          *alpha,
+    const TensorDescriptor&             yDesc,
+    const void                         *y,
+    const TensorDescriptor&             dyDesc,
+    const void                         *dy,
+    const TensorDescriptor&             xDesc,
+    const void                         *x,
+    const void                         *beta,
+    const TensorDescriptor&             dxDesc,
+    void                               *dx )
+  {
+    // TODO: implement this...
+  }
+
+  auto activationForward (
+    const Handle&                       handle,
+    const ActivationDescriptor&         activationDesc,
+    const void                         *alpha,
+    const TensorDescriptor&             xDesc,
+    const void                         *x,
+    const void                         *beta,
+    const TensorDescriptor&             yDesc,
+    void                               *y )
+  {
+    // TODO: implement this...
+  }
+
+  auto activationBackward (
+    const Handle&                       handle,
+    const ActivationDescriptor&         activationDesc,
+    const void                         *alpha,
+    const TensorDescriptor&             yDesc,
+    const void                         *y,
+    const TensorDescriptor&             dyDesc,
+    const void                         *dy,
+    const TensorDescriptor&             xDesc,
+    const void                         *x,
+    const void                         *beta,
+    const TensorDescriptor&             dxDesc,
+    void                               *dx )
+  {
+    // TODO: implement this...
+  }
+
+  auto setActivationDescriptor (
+    const ActivationDescriptor&         activationDesc,
+    const ActivationMode&               mode,
+    const NanPropagation&               reluNanOpt,
+    double                              reluCeiling )
+  {
+    // TODO: implement this...
+  }
+
+  auto getActivationDescriptor (
+    const ActivationDescriptor&   activationDesc,
+    const ActivationMode&              mode,
+    const NanPropagation&              reluNanOpt,
+    double*                             reluCeiling )
+  {
+    // TODO: implement this...
+  }
+
+  auto setLRNDescriptor (
+    const LRNDescriptor&                normDesc,
+    unsigned                            lrnN,
+    double                              lrnAlpha,
+    double                              lrnBeta,
+    double                              lrnK )
+  {
+    // TODO: implement this...
+  }
+
+  auto getLRNDescriptor (
+    const LRNDescriptor&                normDesc,
+    unsigned*                           lrnN,
+    double*                             lrnAlpha,
+    double*                             lrnBeta,
+    double*                             lrnK )
+  {
+    // TODO: implement this...
+  }
+
+  auto lrnCrossChannelForward (
+    const Handle&                       handle,
+    const LRNDescriptor&                normDesc,
+    const LRNMode&                      lrnMode,
+    const void*                         alpha,
+    const TensorDescriptor&       xDesc,
+    const void                         *x,
+    const void                         *beta,
+    const TensorDescriptor&       yDesc,
+    void                               *y )
+  {
+    // TODO: implement this...
+  }
+
+  auto lrnCrossChannelBackward (
+    const Handle&                       handle,
+    const LRNDescriptor&                normDesc,
+    const LRNMode&                      lrnMode,
+    const void*                         alpha,
+    const TensorDescriptor&       yDesc,
+    const void                         *y,
+    const TensorDescriptor&       dyDesc,
+    const void                         *dy,
+    const TensorDescriptor&       xDesc,
+    const void                         *x,
+    const void                         *beta,
+    const TensorDescriptor&       dxDesc,
+    void                               *dx)
+  {
+    // TODO: implement this...
+  }
+
+  auto divisiveNormalizationForward (
+    const Handle&                       handle,
+    const LRNDescriptor&                normDesc,
+    const DivNormMode&                  mode,
+    const void                         *alpha,
+    const TensorDescriptor&       xDesc, /* same desc for means, temp, temp2*/
+    const void                         *x,
+    const void                         *means, /* if NULL, means are assumed to be zero*/
+    void                               *temp,
+    void                               *temp2,
+    const void                         *beta,
+    const TensorDescriptor&       yDesc,
+    void                               *y )
+  {
+    // TODO: implement this...
+  }
+
+  auto divisiveNormalizationBackward (
+    const Handle&                             handle,
+    const LRNDescriptor&                      normDesc,
+    const DivNormMode&                        mode,
+    const void                                *alpha,
+    const TensorDescriptor&                   xDesc, /* same desc for x, means, dy, temp, temp2*/
+    const void                                *x,
+    const void                                *means, /* if NULL, means are assumed to be zero*/
+    const void                                *dy,
+    void                                      *temp,
+    void                                      *temp2,
+    const void                                *beta,
+    const TensorDescriptor&                   dXdMeansDesc, /* same desc for dx, dMeans*/
+    void                                      *dx, /* output x differential*/
+    void                                      *dMeans )
+    {
+      // TODO: implement this...
+    } /* output means differential, can be NULL*/
+
+  auto batchNormalizationForwardInference (
+    const Handle&                             handle,
+    const BatchNormMode&                      mode,
+    const void                                *alpha, /* alpha[0] = result blend factor*/
+    const void                                *beta,  /* beta[0] = dest layer blend factor*/
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,     /* NxCxHxW*/
+    const TensorDescriptor&                   yDesc,
+    void                                      *y,     /* NxCxHxW*/
+    const TensorDescriptor&                   bnScaleBiasMeanVarDesc,
+    const void                                *bnScale,
+    const void                                *bnBias,
+    const void                                *estimatedMean,
+    const void                                *estimatedVariance,
+    double                                    epsilon )
+  {
+    // TODO: implement this...
+  }
+
+  auto batchNormalizationForwardTraining (
+    const Handle&                       handle,
+    const BatchNormMode&                mode,
+
+    const void                         *alpha, /* alpha[0] = result blend factor*/
+    const void                         *beta,  /* beta[0] = dest layer blend factor*/
+
+    const TensorDescriptor&       xDesc,
+    const void                         *x,     /* NxCxHxW*/
+    const TensorDescriptor&       yDesc,
+    void                               *y,     /* NxCxHxW*/
+
+    /* Shared desc for the next 6 tensors in the argument list.
+       Data type to be set as follows:
+       type = (typeOf(x) == double) ? double : float
+       Dimensions for this descriptor depend on normalization mode
+       - Spatial Normalization : tensors are expected to have dims 1xCx1x1
+        (normalization is performed across NxHxW)
+       - Per-Activation Normalization : tensors are expected to have dims of 1xCxHxW
+        (normalization is performed across N) */
+    const TensorDescriptor&       bnScaleBiasMeanVarDesc,
+
+    /* 'Gamma' and 'Beta' respectively in Ioffe and Szegedy's paper's notation*/
+    const void                         *bnScale,
+    const void                         *bnBias,
+
+    /* MUST use factor=1 in the very first call of a complete training cycle.
+       Use a factor=1/(1+n) at N-th call to the function to get
+       Cumulative Moving Average (CMA) behavior
+       CMA[n] = (x[1]+...+x[n])/n
+       Since CMA[n+1] = (n*CMA[n]+x[n+1])/(n+1) =
+       ((n+1)*CMA[n]-CMA[n])/(n+1) + x[n+1]/(n+1) =
+       CMA[n]*(1-1/(n+1)) + x[n+1]*1/(n+1) */
+    double                              exponentialAverageFactor,
+
+    /* Used in Training phase only.
+       runningMean = newMean*factor + runningMean*(1-factor) */
+    void                               *resultRunningMean,
+    /* Output in training mode, input in inference. Is the moving average
+       of  variance[x] (factor is applied in the same way as for runningMean) */
+    void                               *resultRunningVariance,
+
+    /* Has to be >= CUDNN_BN_MIN_EPSILON. Should be the same in forward and backward functions. */
+    double                              epsilon,
+
+    /* Optionally save intermediate results from the forward pass here
+       - can be reused to speed up backward pass. NULL if unused */
+    void                               *resultSaveMean,
+    void                               *resultSaveInvVariance )
+  {
+    // TODO: implement this...
+  }
+
+  auto batchNormalizationBackward (
+    const Handle&                             handle,
+    const BatchNormMode&                      mode,
+    const void                                *alphaDataDiff,
+    const void                                *betaDataDiff,
+    const void                                *alphaParamDiff,
+    const void                                *betaParamDiff,
+    const TensorDescriptor&                   xDesc, /* same desc for x, dx, dy*/
+    const void                                *x,
+    const TensorDescriptor&                   dyDesc,
+    const void                                *dy,
+    const TensorDescriptor&                   dxDesc,
+    void                                      *dx,
+    /* Shared tensor desc for the 4 tensors below */
+    const TensorDescriptor&                   dBnScaleBiasDesc,
+    const void                                *bnScale, /* bnBias doesn't affect backpropagation*/
+    /* scale and bias diff are not backpropagated below this layer */
+    void                                      *dBnScaleResult,
+    void                                      *dBnBiasResult,
+    /* Same epsilon as forward pass */
+    double                                    epsilon,
+
+    /* Optionally cached intermediate results from
+       forward pass */
+    const void                                *savedMean,
+    const void                                *savedInvVariance )
+  {
+    // TODO: implement this...
+  }
+
+  auto deriveBNTensorDescriptor (
+    TensorDescriptor&                         derivedBnDesc,
+    const TensorDescriptor&                   xDesc,
+    const BatchNormMode&                      mode )
+  {
+    // TODO: implement this...
+  }
+
+  auto setRNNDescriptor (
+    const RNNDescriptor&                      rnnDesc,
+    int                                       hiddenSize,
+    int                                       numLayers,
+    DropoutDescriptor&                        dropoutDesc,
+    const RNNInputMode&                       inputMode,
+    const DirectionMode&                      direction,
+    const RNNMode&                            mode,
+    DataType&                                 dataType)
+  {
+    // TODO: implement this...
+  }
+
+  auto getRNNWorkspaceSize (
+    const Handle&                             handle,
+    const RNNDescriptor&                      rnnDesc,
+    const int                                 seqLength,
+    const TensorDescriptor&                   xDesc,
+    size_t                                    *sizeInBytes)
+  {
+    // TODO: implement this...
+  }
+
+  auto getRNNTrainingReserveSize (
+    const Handle&                             handle,
+    const RNNDescriptor&                      rnnDesc,
+    const int                                 seqLength,
+    const TensorDescriptor&                   xDesc,
+    size_t                                    *sizeInBytes)
+  {
+    // TODO: implement this...
+  }
+
+
+  auto getRNNParamsSize (
+    const Handle&                             handle,
+    const RNNDescriptor&                      rnnDesc,
+    const TensorDescriptor&                   xDesc,
+    size_t                                    *sizeInBytes,
+    DataType&                                 dataType)
+  {
+    // TODO: implement this...
+  }
+
+  auto getRNNLinLayerMatrixParams (
+    const Handle&                             handle,
+    const RNNDescriptor&                      rnnDesc,
+    const int                                 layer,
+    const TensorDescriptor&                   xDesc,
+    const FilterDescriptor&                   wDesc,
+    const void                                *w,
+    const int                                 linLayerID,
+    FilterDescriptor&                         linLayerMatDesc,
+    void                                      **linLayerMat)
+  {
+    // TODO: implement this...
+  }
+
+  auto getRNNLinLayerBiasParams (
+    const Handle&                             handle,
+    const RNNDescriptor&                      rnnDesc,
+    const int                                 layer,
+    const TensorDescriptor&                   xDesc,
+    const FilterDescriptor&                   wDesc,
+    const void                                *w,
+    const int                                 linLayerID,
+    FilterDescriptor&                         linLayerBiasDesc,
+    void                                      **linLayerBias)
+  {
+    // TODO: implement this...
+  }
+
+  auto rnnForwardInference (
+    const Handle&                             handle,
+    const RNNDescriptor&                      rnnDesc,
+    const int                                 seqLength,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const TensorDescriptor&                   hxDesc,
+    const void                                *hx,
+    const TensorDescriptor&                   cxDesc,
+    const void                                *cx,
+    const FilterDescriptor&                   wDesc,
+    const void                                *w,
+    const TensorDescriptor&                   yDesc,
+    void                                      *y,
+    const TensorDescriptor&                   hyDesc,
+    void                                      *hy,
+    const TensorDescriptor&                   cyDesc,
+    void                                      *cy,
+    void                                      *workspace,
+    size_t                                    workSpaceSizeInBytes)
+  {
+    // TODO: implement this...
+  }
+
+  auto rnnForwardTraining (
+    const Handle&                             handle,
+    const RNNDescriptor&                      rnnDesc,
+    const int                                 seqLength,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const TensorDescriptor&                   hxDesc,
+    const void                                *hx,
+    const TensorDescriptor&                   cxDesc,
+    const void                                *cx,
+    const FilterDescriptor&                   wDesc,
+    const void                                *w,
+    const TensorDescriptor&                   yDesc,
+    void                                      *y,
+    const TensorDescriptor&                   hyDesc,
+    void                                      *hy,
+    const TensorDescriptor&                   cyDesc,
+    void                                      *cy,
+    void                                      *workspace,
+    size_t                                    workSpaceSizeInBytes,
+    void                                      *reserveSpace,
+    size_t                                    reserveSpaceSizeInBytes)
+  {
+    // TODO: implement this...
+  }
+
+  auto rnnBackwardData (
+    const Handle&                             handle,
+    const RNNDescriptor&                      rnnDesc,
+    const int                                 seqLength,
+    const TensorDescriptor&                   yDesc,
+    const void                                *y,
+    const TensorDescriptor&                   dyDesc,
+    const void                                *dy,
+    const TensorDescriptor&                   dhyDesc,
+    const void                                *dhy,
+    const TensorDescriptor&                   dcyDesc,
+    const void                                *dcy,
+    const FilterDescriptor&                   wDesc,
+    const void                                *w,
+    const TensorDescriptor&                   hxDesc,
+    const void                                *hx,
+    const TensorDescriptor&                   cxDesc,
+    const void                                *cx,
+    const TensorDescriptor&                   dxDesc,
+    void                                      *dx,
+    const TensorDescriptor&                   dhxDesc,
+    void                                      *dhx,
+    const TensorDescriptor&                   dcxDesc,
+    void                                      *dcx,
+    void                                      *workspace,
+    size_t                                    workSpaceSizeInBytes,
+    const void                                *reserveSpace,
+    size_t                                    reserveSpaceSizeInBytes )
+  {
+    // TODO: implement this...
+  }
+
+  auto rnnBackwardWeights (
+    const Handle&                             handle,
+    const RNNDescriptor&                      rnnDesc,
+    const int                                 seqLength,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const TensorDescriptor&                   hxDesc,
+    const void                                *hx,
+    const TensorDescriptor&                   yDesc,
+    const void                                *y,
+    const void                                *workspace,
+    size_t                                    workSpaceSizeInBytes,
+    const FilterDescriptor&                   dwDesc,
+    void                                      *dw,
+    const void                                *reserveSpace,
+    size_t                                    reserveSpaceSizeInBytes )
+  {
+    // TODO: implement this...
+  }
+
+  auto dropoutGetStatesSize (
+    const Handle&                             handle,
+    size_t                                    *sizeInBytes)
+  {
+    // TODO: implement this...
+  }
+
+  auto dropoutGetReserveSpaceSize (
+    TensorDescriptor&                         xDesc,
+    size_t                                    *sizeInBytes )
+  {
+    // TODO: implement this...
+  }
+
+  auto setDropoutDescriptor (
+    const DropoutDescriptor&                  dropoutDesc,
+    const Handle&                             handle,
+    float                                     dropout,
+    void                                      *states,
+    size_t                                    stateSizeInBytes,
+    unsigned long long                        seed )
+  {
+    // TODO: implement this...
+  }
+
+  auto dropoutForward (
+    const Handle&                             handle,
+    const DropoutDescriptor&                  dropoutDesc,
+    const TensorDescriptor&                   xdesc,
+    const void                                *x,
+    const TensorDescriptor&                   ydesc,
+    void                                      *y,
+    void                                      *reserveSpace,
+    size_t                                    reserveSpaceSizeInBytes )
+  {
+    // TODO: implement this...
+  }
+
+  auto dropoutBackward (
+    const Handle&                             handle,
+    const DropoutDescriptor&            dropoutDesc,
+    const TensorDescriptor&                   dydesc,
+    const void                                *dy,
+    const TensorDescriptor&                   dxdesc,
+    void                                      *dx,
+    void                                      *reserveSpace,
+    size_t                                    reserveSpaceSizeInBytes )
+  {
+    // TODO: implement this...
+  }
+
+  auto setSpatialTransformerNdDescriptor (
+    const SpatialTransformerDescriptor&       stDesc,
+    const SamplerType&                        samplerType,
+    DataType&                                             dataType,
+    const int                                 nbDims,
+    const int                                 dimA[])
+  {
+    // TODO: implement this...
+  }
+
+  auto spatialTfGridGeneratorForward (
+    const Handle&                             handle,
+    const SpatialTransformerDescriptor& stDesc,
+    const void                                *theta,
+    void                                      *grid)
+  {
+    // TODO: implement this...
+  }
+
+  auto spatialTfGridGeneratorBackward (
+    const Handle&                             handle,
+    const SpatialTransformerDescriptor& stDesc,
+    const void                                *dgrid,
+    void                                      *dtheta)
+  {
+    // TODO: implement this...
+  }
+
+  auto spatialTfSamplerForward (
+    const Handle&                             handle,
+    const SpatialTransformerDescriptor&       stDesc,
+    const void                                *alpha,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const void                                *grid,
+    const void                                *beta,
+    TensorDescriptor&                         yDesc,
+    void                                      *y)
+  {
+    // TODO: implement this...
+  }
+
+  auto spatialTfSamplerBackward (
+    const Handle&                             handle,
+    const SpatialTransformerDescriptor&       stDesc,
+    const void                                *alpha,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const void                                *beta,
+    const TensorDescriptor&                   dxDesc,
+    void                                      *dx,
+    const void                                *alphaDgrid,
+    const TensorDescriptor&                   dyDesc,
+    const void                                *dy,
+    const void                                *grid,
+    const void                                *betaDgrid,
+    void                                      *dgrid)
+  {
+    // TODO: implement this...
+  }
+
+}
 
 PYBIND11_PLUGIN(pycudnn) {
 
@@ -65,6 +1527,9 @@ PYBIND11_PLUGIN(pycudnn) {
 	py::class_<ConvolutionDescriptor>(m, "ConvolutionDescriptor")
 		.def(py::init<>());
 
+  py::class_<FilterDescriptor>(m, "FilterDescriptor")
+    .def(py::init<>());
+
 	py::class_<DropoutDescriptor>(m, "DropoutDescriptor")
 		.def(py::init<>());
 
@@ -76,6 +1541,9 @@ PYBIND11_PLUGIN(pycudnn) {
 
 	py::class_<PoolingDescriptor>(m, "PoolingDescriptor")
 		.def(py::init<>());
+
+  py::class_<LRNDescriptor>(m, "LRNDescriptor")
+    .def(py::init<>());
 
 	py::class_<RNNDescriptor>(m, "RNNDescriptor")
 		.def(py::init<>());
@@ -302,147 +1770,96 @@ PYBIND11_PLUGIN(pycudnn) {
 		.value("CUDNN_TENSOR_NHWC",
 				CUDNN_TENSOR_NHWC);
 
-  m.def("get_version", []() {
-    return cudnnGetVersion();
-  });
-
-  m.def("get_error_string", [](const Status& status) {
-    return cudnnGetErrorString(status);
-  });
-
-  // m.def("cudnnCreate", ...) - Use Handle instead
-  // TODO: throw exception saying exactly that
-
-  // m.def("cudnnDestroy", ...) - Use Handle instead
-  // TODO: throw exception saying exactly that
-
-  // TODO: implement this
-  //
+  m.def("get_version", &getVersion);
+  m.def("get_error_string", &getErrorString);
   // Note: there's currently an compile issue with cudaStream_t type
   // m.def("set_stream", [](const Handle& handle, cudaStream_t streamId) {
   //   checkStatus(cudnnSetStream(handle, streamId));
   // });
-
   // m.def("get_stream", [](const Handle& handle) {
   //   cudaStream_t streamId;
   //   checkStatus(cudnnGetStream(handle, &streamId));
   //   return streamId;
   // });
-
-  // m.def("cudnnCreateTensorDescriptor", ...) - Use TensorDescriptor instead
-  // TODO: throw exception saying exactly that
-
-  m.def("set_tensor_4d_descriptor",
-    []( TensorDescriptor& tensorDesc,
-        TensorFormat tensorFormat,
-        DataType dataType,
-        std::tuple<int, int, int, int> tensorDims) {
-      int n = std::get<0>(tensorDims);
-      int c = std::get<1>(tensorDims);
-      int h = std::get<2>(tensorDims);
-      int w = std::get<3>(tensorDims);
-      checkStatus(
-        cudnnSetTensor4dDescriptor(tensorDesc, tensorFormat, dataType, n, c, h, w)
-      );
-    });
-
-  m.def("set_tensor_4d_descriptor_ex",
-    []( TensorDescriptor& tensorDesc,
-        DataType dataType,
-        std::tuple<int, int, int, int> tensorDims,
-        std::tuple<int, int, int, int> tensorStrides ) {
-
-      int n = std::get<0>(tensorDims);
-      int c = std::get<1>(tensorDims);
-      int h = std::get<2>(tensorDims);
-      int w = std::get<3>(tensorDims);
-
-      int nS = std::get<0>(tensorStrides);
-      int cS = std::get<1>(tensorStrides);
-      int hS = std::get<2>(tensorStrides);
-      int wS = std::get<3>(tensorStrides);
-
-      checkStatus(
-        cudnnSetTensor4dDescriptorEx(tensorDesc, dataType, n, c, h, w, nS, cS, hS, wS)
-      );
-    });
-
-  m.def("get_tensor_4d_descriptor",
-    []( TensorDescriptor& tensorDesc ) {
-      cudnnDataType_t dataType;
-
-      int n;
-      int c;
-      int h;
-      int w;
-
-      int nS;
-      int cS;
-      int hS;
-      int wS;
-
-      checkStatus(
-        cudnnGetTensor4dDescriptor(tensorDesc, &dataType, &n, &c, &h, &w, &nS, &cS, &hS, &wS)
-      );
-
-      return std::make_tuple(dataType, std::vector<int>({n, c, h, w}), std::vector<int>({nS, cS, hS, wS}));
-    });
-
-  m.def("set_tensor_nd_descriptor",
-    []( TensorDescriptor& tensorDesc,
-        DataType dataType,
-        std::vector<int> dims,
-        std::vector<int> strides ) {
-
-      if (dims.size() != strides.size())
-        throw std::length_error("dims and strides must be of the same length");
-
-      checkStatus(
-        cudnnSetTensorNdDescriptor(tensorDesc, dataType, dims.size(), dims.data(), strides.data())
-      );
-    });
-
-  m.def("get_tensor_nd_descriptor",
-    []( TensorDescriptor& tensorDesc,
-        int numDimsRequested = 1) {
-
-      cudnnDataType_t dataType;
-      int numDims;
-
-      std::vector<int> dims, strides;
-      for (int i = 0; i < numDimsRequested; i++) {
-        dims.push_back(0);
-        strides.push_back(0);
-      }
-
-      checkStatus(
-        cudnnGetTensorNdDescriptor(tensorDesc, numDimsRequested, &dataType, &numDims, dims.data(), strides.data())
-      );
-
-      return std::make_tuple(dataType, dims, strides);
-    });
-
-  // m.def("cudnnDestroyTensorDescriptor", ...) - Use TensorDescriptor instead
-  // TODO: throw exception saying exactly that
-
-
-  // cudnnStatus_t
-  // cudnnTransformTensor( cudnnHandle_t                  handle,
-  //                       const void                    *alpha,
-  //                       const cudnnTensorDescriptor_t  xDesc,
-  //                       const void                    *x,
-  //                       const void                    *beta,
-  //                       const cudnnTensorDescriptor_t  yDesc,
-  //                       void                          *y )
-
-  // cudnnStatus_t
-  // cudnnAddTensor_(  cudnnHandle_t handle,
-  //                   const void *alpha,
-  //                   const cudnnTensorDescriptor_t aDesc,
-  //                   const void *A,
-  //                   const void *beta,
-  //                   const cudnnTensorDescriptor_t cDesc,
-  //                   void *C)
+  m.def("set_tensor_4d_descriptor", &setTensor4dDescriptor);
+  m.def("set_tensor_4d_descriptor_ex", &setTensor4dDescriptorEx);
+  m.def("get_tensor_4d_descriptor", &getTensor4dDescriptor);
+  m.def("set_tensor_nd_descriptor", &setTensorNdDescriptor);
+  m.def("get_tensor_nd_descriptor", &getTensorNdDescriptor);
+  m.def("transform_tensor", &transformTensor);
+  m.def("add_tensor", &addTensor);
+  m.def("op_tensor", &opTensor);
+  m.def("set_tensor", &setTensor);
+  m.def("scale_tensor", &scaleTensor);
+  m.def("set_filter_4d_descriptor", &setFilter4dDescriptor);
+  m.def("get_filter_4d_descriptor", &getFilter4dDescriptor);
+  m.def("set_filter_nd_descriptor", &setFilterNdDescriptor);
+  m.def("get_filter_nd_descriptor", &getFilterNdDescriptor);
+  m.def("set_convolution_2d_descriptor", &setConvolution2dDescriptor);
+  m.def("get_convolution_2d_descriptor", &getConvolution2dDescriptor);
+  m.def("get_convolution_2d_forward_output_dim", &getConvolution2dForwardOutputDim);
+  m.def("set_convolution_nd_descriptor", &setConvolutionNdDescriptor);
+  m.def("get_convolution_nd_descriptor", &getConvolutionNdDescriptor);
+  m.def("get_convolution_nd_forward_output_dim", &getConvolutionNdForwardOutputDim);
+  m.def("find_convolution_forward_algorithm", &findConvolutionForwardAlgorithm);
+  m.def("find_convolution_forward_algorithm_ex", &findConvolutionForwardAlgorithmEx);
+  m.def("get_convolution_forward_algorithm", &getConvolutionForwardAlgorithm);
+  m.def("get_convolution_forward_workspace_size", &getConvolutionForwardAlgorithm);
+  m.def("convolution_forward", &convolutionForward);
+  m.def("convolution_backward_bias", &convolutionBackwardBias);
+  m.def("find_convolution_backward_filter_algorithm", &findConvolutionBackwardFilterAlgorithm);
+  m.def("find_convolution_backward_filter_algorithm_ex", &findConvolutionBackwardFilterAlgorithmEx);
+  // m.def("get_convolution_backward_filter_workspace_size", &getConvolutionBackwardFilterWorkspaceSize);
+  // m.def("convolution_backward_filter", &convolutionBackwardFilter);
+  // m.def("find_convolution_backward_data_algorithm", &findConvolutionBackwardDataAlgorithm);
+  // m.def("find_convolution_backward_data_algorithm_ex", &findConvolutionBackwardDataAlgorithmEx);
+  // m.def("get_convolution_backward_data_algorithm", &getConvolutionBackwardDataAlgorithm);
+  // m.def("get_convolution_backward_data_workspace_size", &getConvolutionBackwardDataWorkspaceSize);
+  // m.def("convolution_backward_data", &convolutionBackwardData);
+  // m.def("softmax_forward", &softmaxForward);
+  // m.def("softmax_backward", &softmaxBackward);
+  // m.def("set_pooling2d_descriptor", &setPooling2dDescriptor);
+  // m.def("get_pooling2d_descriptor", &getPooling2dDescriptor);
+  // m.def("set_pooling_nd_descriptor", &setPoolingNdDescriptor);
+  // m.def("get_pooling_nd_descriptor", &getPoolingNdDescriptor);
+  // m.def("get_pooling_nd_forward_output_dim", &getPoolingNdForwardOutputDim);
+  // m.def("get_pooling2d_forward_output_dim", &getPooling2dForwardOutputDim);
+  // m.def("pooling_forward", &poolingForward);
+  // m.def("pooling_backward", &poolingBackward);
+  // m.def("activation_forward", &activationForward);
+  // m.def("activation_backward", &activationBackward);
+  // m.def("set_activation_descriptor", &setActivationDescriptor);
+  // m.def("get_activation_descriptor", &getActivationDescriptor);
+  // m.def("set_lrn_descriptor", &setLRNDescriptor);
+  // m.def("get_lrn_descriptor", &getLRNDescriptor);
+  // m.def("lrn_cross_channel_forward", &lrnCrossChannelForward);
+  // m.def("lrn_cross_channel_backward", &lrnCrossChannelBackward);
+  // m.def("divisive_normalization_forward", &divisiveNormalizationForward);
+  // m.def("divisive_normalization_backward", &divisiveNormalizationBackward);
+  // m.def("batch_normalization_forward_inference", &batchNormalizationForwardInference);
+  // m.def("batch_normalization_forward_training", &batchNormalizationForwardTraining);
+  // m.def("batch_normalization_backward", &batchNormalizationBackward);
+  // m.def("derive_bn_tensor_descriptor", &deriveBNTensorDescriptor);
+  // m.def("set_rnn_descriptor", &setRNNDescriptor);
+  // m.def("get_rnn_workspace_size", &getRNNWorkspaceSize);
+  // m.def("get_rnn_training_reserve_size", &getRNNTrainingReserveSize);
+  // m.def("get_rnn_params_size", &getRNNParamsSize);
+  // m.def("get_rnn_lin_layer_matrix_params", &getRNNLinLayerMatrixParams);
+  // m.def("get_rnn_lin_layer_bias_params", &getRNNLinLayerBiasParams);
+  // m.def("rnn_forward_inference", &rnnForwardInference);
+  // m.def("rnn_forward_training", &rnnForwardTraining);
+  // m.def("rnn_backward_data", &rnnBackwardData);
+  // m.def("rnn_backward_weights", &rnnBackwardWeights);
+  // m.def("dropout_get_states_size", &dropoutGetStatesSize);
+  // m.def("dropout_get_reserve_space_size", &dropoutGetReserveSpaceSize);
+  // m.def("set_dropout_descriptor", &setDropoutDescriptor);
+  // m.def("dropout_forward", &dropoutForward);
+  // m.def("dropout_backward", &dropoutBackward);
+  // m.def("set_spatial_transformer_nd_descriptor", &setSpatialTransformerNdDescriptor);
+  // m.def("spatial_tf_grid_generator_forward", &spatialTfGridGeneratorForward);
+  // m.def("spatial_tf_grid_generator_backward", &spatialTfGridGeneratorBackward);
+  // m.def("spatial_tf_sampler_forward", &spatialTfSamplerForward);
+  // m.def("spatial_tf_sampler_backward", &spatialTfSamplerBackward);
 
 	return m.ptr();
 }
