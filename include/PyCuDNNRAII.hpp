@@ -26,7 +26,7 @@ namespace PyCuDNN {
 
   		std::shared_ptr<Resource> mResource;
 
-  	protected:
+  	public:
 
   		RAII() : mResource(new Resource) {}
 
@@ -35,6 +35,10 @@ namespace PyCuDNN {
   		T get() const {
   			return mResource->object;
   		}
+
+      operator T() const {
+        return mResource->object;
+      }
 	};
 }
 

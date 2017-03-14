@@ -7,8 +7,8 @@
 #include "PyCuDNNRAII.hpp" // RAII
 
 namespace PyCuDNN {
-	class FilterDescriptor :
-		protected RAII< cudnnFilterDescriptor_t,
+    class FilterDescriptor :
+        public RAII< cudnnFilterDescriptor_t,
                     cudnnCreateFilterDescriptor,
                     cudnnDestroyFilterDescriptor > {};
 }

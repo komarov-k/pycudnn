@@ -6,8 +6,8 @@
 #include "PyCuDNNRAII.hpp" // RAII
 
 namespace PyCuDNN {
-	class SpatialTransformerDescriptor :
-		protected RAII< cudnnSpatialTransformerDescriptor_t,
+    class SpatialTransformerDescriptor :
+        public RAII< cudnnSpatialTransformerDescriptor_t,
                     cudnnCreateSpatialTransformerDescriptor,
                     cudnnDestroySpatialTransformerDescriptor > {};
 } // PyCuDNN

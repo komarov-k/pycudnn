@@ -1,6 +1,10 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <cuda.h>
+#include <cuda_runtime.h>
+#include <cudnn.h>
+
 #include "PyCuDNNActivationDescriptor.hpp"
 #include "PyCuDNNActivationMode.hpp"
 #include "PyCuDNNBatchNormMode.hpp"
@@ -297,6 +301,148 @@ PYBIND11_PLUGIN(pycudnn) {
 				CUDNN_TENSOR_NCHW)
 		.value("CUDNN_TENSOR_NHWC",
 				CUDNN_TENSOR_NHWC);
+
+  m.def("get_version", []() {
+    return cudnnGetVersion();
+  });
+
+  m.def("get_error_string", [](const Status& status) {
+    return cudnnGetErrorString(status);
+  });
+
+  // m.def("cudnnCreate", ...) - Use Handle instead
+  // TODO: throw exception saying exactly that
+
+  // m.def("cudnnDestroy", ...) - Use Handle instead
+  // TODO: throw exception saying exactly that
+
+  // TODO: implement this
+  //
+  // Note: there's currently an compile issue with cudaStream_t type
+  // m.def("set_stream", [](const Handle& handle, cudaStream_t streamId) {
+  //   checkStatus(cudnnSetStream(handle, streamId));
+  // });
+
+  // m.def("get_stream", [](const Handle& handle) {
+  //   cudaStream_t streamId;
+  //   checkStatus(cudnnGetStream(handle, &streamId));
+  //   return streamId;
+  // });
+
+  // m.def("cudnnCreateTensorDescriptor", ...) - Use TensorDescriptor instead
+  // TODO: throw exception saying exactly that
+
+  m.def("set_tensor_4d_descriptor",
+    []( TensorDescriptor& tensorDesc,
+        TensorFormat tensorFormat,
+        DataType dataType,
+        std::tuple<int, int, int, int> tensorDims) {
+      int n = std::get<0>(tensorDims);
+      int c = std::get<1>(tensorDims);
+      int h = std::get<2>(tensorDims);
+      int w = std::get<3>(tensorDims);
+      checkStatus(
+        cudnnSetTensor4dDescriptor(tensorDesc, tensorFormat, dataType, n, c, h, w)
+      );
+    });
+
+  m.def("set_tensor_4d_descriptor_ex",
+    []( TensorDescriptor& tensorDesc,
+        DataType dataType,
+        std::tuple<int, int, int, int> tensorDims,
+        std::tuple<int, int, int, int> tensorStrides ) {
+
+      int n = std::get<0>(tensorDims);
+      int c = std::get<1>(tensorDims);
+      int h = std::get<2>(tensorDims);
+      int w = std::get<3>(tensorDims);
+
+      int nS = std::get<0>(tensorStrides);
+      int cS = std::get<1>(tensorStrides);
+      int hS = std::get<2>(tensorStrides);
+      int wS = std::get<3>(tensorStrides);
+
+      checkStatus(
+        cudnnSetTensor4dDescriptorEx(tensorDesc, dataType, n, c, h, w, nS, cS, hS, wS)
+      );
+    });
+
+  m.def("get_tensor_4d_descriptor",
+    []( TensorDescriptor& tensorDesc ) {
+      cudnnDataType_t dataType;
+
+      int n;
+      int c;
+      int h;
+      int w;
+
+      int nS;
+      int cS;
+      int hS;
+      int wS;
+
+      checkStatus(
+        cudnnGetTensor4dDescriptor(tensorDesc, &dataType, &n, &c, &h, &w, &nS, &cS, &hS, &wS)
+      );
+
+      return std::make_tuple(dataType, std::vector<int>({n, c, h, w}), std::vector<int>({nS, cS, hS, wS}));
+    });
+
+  m.def("set_tensor_nd_descriptor",
+    []( TensorDescriptor& tensorDesc,
+        DataType dataType,
+        std::vector<int> dims,
+        std::vector<int> strides ) {
+
+      if (dims.size() != strides.size())
+        throw std::length_error("dims and strides must be of the same length");
+
+      checkStatus(
+        cudnnSetTensorNdDescriptor(tensorDesc, dataType, dims.size(), dims.data(), strides.data())
+      );
+    });
+
+  m.def("get_tensor_nd_descriptor",
+    []( TensorDescriptor& tensorDesc,
+        int numDimsRequested = 1) {
+
+      cudnnDataType_t dataType;
+      int numDims;
+
+      std::vector<int> dims, strides;
+      for (int i = 0; i < numDimsRequested; i++) {
+        dims.push_back(0);
+        strides.push_back(0);
+      }
+
+      checkStatus(
+        cudnnGetTensorNdDescriptor(tensorDesc, numDimsRequested, &dataType, &numDims, dims.data(), strides.data())
+      );
+
+      return std::make_tuple(dataType, dims, strides);
+    });
+
+  // m.def("cudnnDestroyTensorDescriptor", ...) - Use TensorDescriptor instead
+  // TODO: throw exception saying exactly that
+
+
+  // cudnnStatus_t
+  // cudnnTransformTensor( cudnnHandle_t                  handle,
+  //                       const void                    *alpha,
+  //                       const cudnnTensorDescriptor_t  xDesc,
+  //                       const void                    *x,
+  //                       const void                    *beta,
+  //                       const cudnnTensorDescriptor_t  yDesc,
+  //                       void                          *y )
+
+  // cudnnStatus_t
+  // cudnnAddTensor_(  cudnnHandle_t handle,
+  //                   const void *alpha,
+  //                   const cudnnTensorDescriptor_t aDesc,
+  //                   const void *A,
+  //                   const void *beta,
+  //                   const cudnnTensorDescriptor_t cDesc,
+  //                   void *C)
 
 	return m.ptr();
 }

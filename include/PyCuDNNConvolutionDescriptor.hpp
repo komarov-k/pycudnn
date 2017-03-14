@@ -6,8 +6,8 @@
 #include "PyCuDNNRAII.hpp" // RAII
 
 namespace PyCuDNN {
-	class ConvolutionDescriptor :
-    protected RAII< cudnnConvolutionDescriptor_t,
+    class ConvolutionDescriptor :
+    public RAII< cudnnConvolutionDescriptor_t,
                     cudnnCreateConvolutionDescriptor,
                     cudnnDestroyConvolutionDescriptor > {};
 }

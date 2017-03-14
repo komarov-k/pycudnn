@@ -7,54 +7,54 @@
 
 namespace PyCuDNN {
 
-	class Handle :
-		protected RAII< cudnnHandle_t,
+    class Handle :
+        public RAII< cudnnHandle_t,
                     cudnnCreate,
                     cudnnDestroy > {};
 
-	// /**
-	//  * @brief      Wrapper class for cuDNN library handle.
-	//  */
-	// class Handle {
+    // /**
+    //  * @brief      Wrapper class for cuDNN library handle.
+    //  */
+    // class Handle {
 
-	// 	/**
-	// 	 * @brief      RAII wrapper around C-struct handle.
-	// 	 */
-	// 	struct Wrapped {
-	// 		cudnnHandle_t object;
+    //  /**
+    //   * @brief      RAII wrapper around C-struct handle.
+    //   */
+    //  struct Wrapped {
+    //      cudnnHandle_t object;
 
-	// 		Wrapped() {
-	// 			checkStatus(cudnnCreate(&object));
-	// 		}
+    //      Wrapped() {
+    //          checkStatus(cudnnCreate(&object));
+    //      }
 
-	// 		~Wrapped() {
+    //      ~Wrapped() {
  //                checkStatus(cudnnDestroy(object));
-	// 		}
-	// 	};
+    //      }
+    //  };
 
-	// 	/**
-	// 	 * Pointer to cuDNN handle wrapper.
-	// 	 */
-	// 	std::shared_ptr<Wrapped> mWrapped;
+    //  /**
+    //   * Pointer to cuDNN handle wrapper.
+    //   */
+    //  std::shared_ptr<Wrapped> mWrapped;
 
  //    public:
 
- //    	/**
- //    	 * @brief      Constructs new Handle instance.
- //    	 *
- //    	 * @param[in]  deviceId  NVIDIA GPU device identifier
- //    	 */
- //    	Handle() : mWrapped(new Wrapped()) {}
+ //     /**
+ //      * @brief      Constructs new Handle instance.
+ //      *
+ //      * @param[in]  deviceId  NVIDIA GPU device identifier
+ //      */
+ //     Handle() : mWrapped(new Wrapped()) {}
 
- //    	/**
- //    	 * @brief      Accessor for underlying (C-struct) cuDNN handle object.
- //    	 *
- //    	 * @return     cuDNN handle object.
- //    	 */
- //    	cudnnHandle_t get() const {
- //    		return mWrapped->object;
- //    	}
-	// };
+ //     /**
+ //      * @brief      Accessor for underlying (C-struct) cuDNN handle object.
+ //      *
+ //      * @return     cuDNN handle object.
+ //      */
+ //     cudnnHandle_t get() const {
+ //         return mWrapped->object;
+ //     }
+    // };
 }
 
 #endif // PYCUDNN_HANDLE

@@ -6,8 +6,8 @@
 #include "PyCuDNNRAII.hpp" // RAII
 
 namespace PyCuDNN {
-	class PoolingDescriptor :
-    protected RAII< cudnnPoolingDescriptor_t,
+    class PoolingDescriptor :
+    public RAII< cudnnPoolingDescriptor_t,
                     cudnnCreatePoolingDescriptor,
                     cudnnDestroyPoolingDescriptor > {};
 } // PyCuDNN

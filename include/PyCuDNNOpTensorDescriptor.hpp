@@ -7,8 +7,8 @@
 
 namespace PyCuDNN {
 
-	class OpTensorDescriptor :
-		protected RAII< cudnnOpTensorDescriptor_t,
+    class OpTensorDescriptor :
+        public RAII< cudnnOpTensorDescriptor_t,
                     cudnnCreateOpTensorDescriptor,
                     cudnnDestroyOpTensorDescriptor > {};
 } // PyCuDNN

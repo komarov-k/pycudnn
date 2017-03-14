@@ -6,8 +6,8 @@
 #include "PyCuDNNRAII.hpp" // RAII
 
 namespace PyCuDNN {
-	class ActivationDescriptor :
-		protected RAII< cudnnActivationDescriptor_t,
+    class ActivationDescriptor :
+        public RAII< cudnnActivationDescriptor_t,
                     cudnnCreateActivationDescriptor,
                     cudnnDestroyActivationDescriptor > {};
 }

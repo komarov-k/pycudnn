@@ -6,8 +6,8 @@
 #include "PyCuDNNRAII.hpp" // RAII
 
 namespace PyCuDNN {
-	class RNNDescriptor :
-		protected RAII< cudnnRNNDescriptor_t,
+    class RNNDescriptor :
+        public RAII< cudnnRNNDescriptor_t,
                         cudnnCreateRNNDescriptor,
                         cudnnDestroyRNNDescriptor > {};
 } // PyCuDNN

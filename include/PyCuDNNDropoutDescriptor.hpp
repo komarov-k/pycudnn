@@ -6,8 +6,8 @@
 #include "PyCuDNNRAII.hpp" // RAII
 
 namespace PyCuDNN {
-	class DropoutDescriptor :
-		protected RAII< cudnnDropoutDescriptor_t,
+    class DropoutDescriptor :
+        public RAII< cudnnDropoutDescriptor_t,
                     cudnnCreateDropoutDescriptor,
                     cudnnDestroyDropoutDescriptor > {};
 } // PyCuDNN
