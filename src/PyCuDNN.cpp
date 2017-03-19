@@ -974,31 +974,53 @@ namespace PyCuDNN {
   auto activationForward (
     const Handle&                       handle,
     const ActivationDescriptor&         activationDesc,
-    const void                         *alpha,
+    const float                         alpha,
     const TensorDescriptor&             xDesc,
-    const void                         *x,
-    const void                         *beta,
+    const void                          *x,
+    const float                         beta,
     const TensorDescriptor&             yDesc,
-    void                               *y )
+    void                                *y )
   {
-    // TODO: implement this...
+    checkStatus(
+      cudnnActivationForward(
+        handle, 
+        activationDesc,
+        &alpha,
+        xDesc,
+        x,
+        &beta,
+        yDesc,
+        y));
   }
 
   auto activationBackward (
     const Handle&                       handle,
     const ActivationDescriptor&         activationDesc,
-    const void                         *alpha,
+    const float                         alpha,
     const TensorDescriptor&             yDesc,
-    const void                         *y,
+    const long long                     y,
     const TensorDescriptor&             dyDesc,
-    const void                         *dy,
+    const long long                     dy,
     const TensorDescriptor&             xDesc,
-    const void                         *x,
-    const void                         *beta,
+    const long long                     x,
+    const float                         beta,
     const TensorDescriptor&             dxDesc,
-    void                               *dx )
+    const long long                     dx )
   {
-    // TODO: implement this...
+    checkStatus(
+      cudnnActivationBackward(
+        handle,
+        activationDesc,
+        &alpha,
+        yDesc,
+        (void*) y,
+        dyDesc,
+        (void*) dy,
+        xDesc,
+        (void*) x,
+        &beta,
+        dxDesc,
+        (void*) dx));
   }
 
   auto setActivationDescriptor (
@@ -1007,7 +1029,12 @@ namespace PyCuDNN {
     const NanPropagation&               reluNanOpt,
     double                              reluCeiling )
   {
-    // TODO: implement this...
+    checkStatus(
+      cudnnSetActivationDescriptor(
+        activationDesc,
+        mode,
+        reluNanOpt,
+        reluCeiling));
   }
 
   auto getActivationDescriptor (
@@ -1511,6 +1538,10 @@ PYBIND11_PLUGIN(pycudnn) {
 
 	using namespace PyCuDNN;
 
+    py::register_exception<PyCuDNN::Exception>(m, "Exception");
+
+    int alsdfjaldkjf = 1;
+
 	py::class_<ActivationDescriptor>(m, "ActivationDescriptor")
 		.def(py::init<>());
 
@@ -1826,9 +1857,9 @@ PYBIND11_PLUGIN(pycudnn) {
   // m.def("get_pooling2d_forward_output_dim", &getPooling2dForwardOutputDim);
   // m.def("pooling_forward", &poolingForward);
   // m.def("pooling_backward", &poolingBackward);
-  // m.def("activation_forward", &activationForward);
-  // m.def("activation_backward", &activationBackward);
-  // m.def("set_activation_descriptor", &setActivationDescriptor);
+  m.def("activation_forward", &activationForward);
+  m.def("activation_backward", &activationBackward);
+  m.def("set_activation_descriptor", &setActivationDescriptor);
   // m.def("get_activation_descriptor", &getActivationDescriptor);
   // m.def("set_lrn_descriptor", &setLRNDescriptor);
   // m.def("get_lrn_descriptor", &getLRNDescriptor);
