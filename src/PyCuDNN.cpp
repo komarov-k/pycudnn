@@ -589,18 +589,18 @@ namespace PyCuDNN {
   }
 
   auto convolutionForward (
-    Handle& handle,
-    double alpha,
-    TensorDescriptor& xDesc,
-    const void* x,
-    FilterDescriptor& wDesc,
-    const void* w,
-    ConvolutionDescriptor& convDesc,
-    ConvolutionFwdAlgo& algo,
-    void* workSpace,
-    size_t workSpaceSizeInBytes,
-    double beta,
-    TensorDescriptor& yDesc,
+    Handle&                                   handle,
+    double                                    alpha,
+    TensorDescriptor&                         xDesc,
+    const void*                               x,
+    FilterDescriptor&                         wDesc,
+    const void*                               w,
+    ConvolutionDescriptor&                    convDesc,
+    ConvolutionFwdAlgo&                       algo,
+    void*                                     workSpace,
+    size_t                                    workSpaceSizeInBytes,
+    double                                    beta,
+    TensorDescriptor&                         yDesc,
     void* y )
   {
     checkStatus(
@@ -622,13 +622,13 @@ namespace PyCuDNN {
   }
 
   void convolutionBackwardBias (
-    Handle& handle,
-    double alpha,
-    TensorDescriptor& dyDesc,
-    const void* dy,
-    double beta,
-    TensorDescriptor& dbDesc,
-    void *db )
+    Handle&                                   handle,
+    double                                    alpha,
+    TensorDescriptor&                         dyDesc,
+    const void*                               dy,
+    double                                    beta,
+    TensorDescriptor&                         dbDesc,
+    void                                      *db )
   {
     checkStatus(
       cudnnConvolutionBackwardBias(
@@ -681,17 +681,17 @@ namespace PyCuDNN {
   }
 
   auto findConvolutionBackwardFilterAlgorithmEx (
-    const Handle&                         handle,
-    const TensorDescriptor&               xDesc,
-    const void                            *x,
-    const TensorDescriptor&               dyDesc,
-    const void                            *y,
-    const ConvolutionDescriptor&          convDesc,
-    const FilterDescriptor&               dwDesc,
-    void                                  *dw,
-    const int                             requestedAlgoCount,
-    void                                  *workSpace,
-    size_t                                workSpaceSizeInBytes )
+    const Handle&                             handle,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const TensorDescriptor&                   dyDesc,
+    const void                                *y,
+    const ConvolutionDescriptor&              convDesc,
+    const FilterDescriptor&                   dwDesc,
+    void                                      *dw,
+    const int                                 requestedAlgoCount,
+    void                                      *workSpace,
+    size_t                                    workSpaceSizeInBytes )
   {
     const int maxAlgoCount = 32;
     if (requestedAlgoCount > maxAlgoCount) {
@@ -728,32 +728,32 @@ namespace PyCuDNN {
   }
 
   auto getConvolutionBackwardFilterWorkspaceSize (
-    const Handle&                       handle,
-    const TensorDescriptor&             xDesc,
-    const TensorDescriptor&             dyDesc,
-    const ConvolutionDescriptor&        convDesc,
-    const FilterDescriptor              gradDesc,
-    ConvolutionBwdFilterAlgo            algo,
-    size_t                             *sizeInBytes )
+    const Handle&                             handle,
+    const TensorDescriptor&                   xDesc,
+    const TensorDescriptor&                   dyDesc,
+    const ConvolutionDescriptor&              convDesc,
+    const FilterDescriptor                    gradDesc,
+    ConvolutionBwdFilterAlgo                  algo,
+    size_t                                    *sizeInBytes )
   {
 
     // TODO: implement this
   }
 
   auto convolutionBackwardFilter(
-    const Handle&                       handle,
-    const void                         *alpha,
-    const TensorDescriptor&             xDesc,
-    const void                         *x,
-    const TensorDescriptor&             dyDesc,
-    const void                         *dy,
-    const ConvolutionDescriptor&        convDesc,
-    ConvolutionBwdFilterAlgo            algo,
-    void                               *workSpace,
-    size_t                              workSpaceSizeInBytes,
-    const void                         *beta,
-    const FilterDescriptor              dwDesc,
-    void                               *dw )
+    const Handle&                             handle,
+    const void                                *alpha,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const TensorDescriptor&                   dyDesc,
+    const void                                *dy,
+    const ConvolutionDescriptor&              convDesc,
+    ConvolutionBwdFilterAlgo                  algo,
+    void                                      *workSpace,
+    size_t                                    workSpaceSizeInBytes,
+    const void                                *beta,
+    const FilterDescriptor                    dwDesc,
+    void                                      *dw )
   {
 
     // TODO: implement this
@@ -761,229 +761,225 @@ namespace PyCuDNN {
 
 
   auto findConvolutionBackwardDataAlgorithm (
-    const Handle&                       handle,
-    const FilterDescriptor&             wDesc,
-    const TensorDescriptor&             dyDesc,
-    const ConvolutionDescriptor&        convDesc,
-    const TensorDescriptor&             dxDesc,
-    const int                           requestedAlgoCount,
-    int                                *returnedAlgoCount,
-    ConvolutionBwdDataAlgoPerf         *perfResults )
+    const Handle&                             handle,
+    const FilterDescriptor&                   wDesc,
+    const TensorDescriptor&                   dyDesc,
+    const ConvolutionDescriptor&              convDesc,
+    const TensorDescriptor&                   dxDesc,
+    const int                                 requestedAlgoCount,
+    int                                       *returnedAlgoCount,
+    ConvolutionBwdDataAlgoPerf                *perfResults )
   {
     // TODO: implement this...
   }
 
   auto findConvolutionBackwardDataAlgorithmEx (
-    const Handle&                       handle,
-    const FilterDescriptor&             wDesc,
-    const void                         *w,
-    const TensorDescriptor&             dyDesc,
-    const void                         *dy,
-    const ConvolutionDescriptor&        convDesc,
-    const TensorDescriptor&             dxDesc,
-    void                               *dx,
-    const int                           requestedAlgoCount,
-    int                                *returnedAlgoCount,
-    ConvolutionBwdDataAlgoPerf         *perfResults,
-    void                               *workSpace,
-    size_t                              workSpaceSizeInBytes )
+    const Handle&                             handle,
+    const FilterDescriptor&                   wDesc,
+    const void                                *w,
+    const TensorDescriptor&                   dyDesc,
+    const void                                *dy,
+    const ConvolutionDescriptor&              convDesc,
+    const TensorDescriptor&                   dxDesc,
+    void                                      *dx,
+    const int                                 requestedAlgoCount,
+    int                                       *returnedAlgoCount,
+    ConvolutionBwdDataAlgoPerf                *perfResults,
+    void                                      *workSpace,
+    size_t                                    workSpaceSizeInBytes )
   {
     // TODO: implement this...
   }
 
   auto getConvolutionBackwardDataAlgorithm (
-    const Handle&                       handle,
-    const FilterDescriptor&             wDesc,
-    const TensorDescriptor&             dyDesc,
-    const ConvolutionDescriptor&        convDesc,
-    const TensorDescriptor&             dxDesc,
-    const ConvolutionBwdDataPreference& preference,
-    size_t                              memoryLimitInBytes,
-    const ConvolutionBwdDataAlgo&      algo )
+    const Handle&                             handle,
+    const FilterDescriptor&                   wDesc,
+    const TensorDescriptor&                   dyDesc,
+    const ConvolutionDescriptor&              convDesc,
+    const TensorDescriptor&                   dxDesc,
+    const ConvolutionBwdDataPreference&       preference,
+    size_t                                    memoryLimitInBytes,
+    const ConvolutionBwdDataAlgo&             algo )
   {
     // TODO: implement this...
   }
 
   auto getConvolutionBackwardDataWorkspaceSize (
-    const Handle&                       handle,
-    const FilterDescriptor&             wDesc,
-    const TensorDescriptor&             dyDesc,
-    const ConvolutionDescriptor&        convDesc,
-    const TensorDescriptor&             dxDesc,
-    const ConvolutionBwdDataAlgo&       algo,
-    size_t                             *sizeInBytes )
+    const Handle&                             handle,
+    const FilterDescriptor&                   wDesc,
+    const TensorDescriptor&                   dyDesc,
+    const ConvolutionDescriptor&              convDesc,
+    const TensorDescriptor&                   dxDesc,
+    const ConvolutionBwdDataAlgo&             algo,
+    size_t                                    *sizeInBytes )
   {
     // TODO: implement this...
   }
 
   auto convolutionBackwardData (
-    const Handle&                       handle,
-    const void                         *alpha,
-    const FilterDescriptor&             wDesc,
-    const void                         *w,
-    const TensorDescriptor&             dyDesc,
-    const void                         *dy,
-    const ConvolutionDescriptor&        convDesc,
-    const ConvolutionBwdDataAlgo&       algo,
-    void                               *workSpace,
-    size_t                              workSpaceSizeInBytes,
-    const void                         *beta,
-    const TensorDescriptor&             dxDesc,
-    void                               *dx )
+    const Handle&                             handle,
+    const void                                *alpha,
+    const FilterDescriptor&                   wDesc,
+    const void                                *w,
+    const TensorDescriptor&                   dyDesc,
+    const void                                *dy,
+    const ConvolutionDescriptor&              convDesc,
+    const ConvolutionBwdDataAlgo&             algo,
+    void                                      *workSpace,
+    size_t                                    workSpaceSizeInBytes,
+    const void                                *beta,
+    const TensorDescriptor&                   dxDesc,
+    void                                      *dx )
   {
     // TODO: implement this...
   }
 
   auto softmaxForward (
-    const Handle&                       handle,
-    const SoftmaxAlgorithm&             algo,
-    const SoftmaxMode&                  mode,
-    const void                         *alpha,
-    const TensorDescriptor&             xDesc,
-    const void                         *x,
-    const void                         *beta,
-    const TensorDescriptor&             yDesc,
-    void                               *y )
+    const Handle&                             handle,
+    const SoftmaxAlgorithm&                   algo,
+    const SoftmaxMode&                        mode,
+    const void                                *alpha,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const void                                *beta,
+    const TensorDescriptor&                   yDesc,
+    void                                      *y )
   {
     // TODO: implement this...
   }
 
   auto softmaxBackward (
-    const Handle&                       handle,
-    const SoftmaxAlgorithm&             algo,
-    const SoftmaxMode&                  mode,
-    const void                         *alpha,
-    const TensorDescriptor&             yDesc,
-    const void                         *y,
-    const TensorDescriptor&             dyDesc,
-    const void                         *dy,
-    const void                         *beta,
-    const TensorDescriptor&             dxDesc,
-    void                               *dx )
+    const Handle&                             handle,
+    const SoftmaxAlgorithm&                   algo,
+    const SoftmaxMode&                        mode,
+    const void                                *alpha,
+    const TensorDescriptor&                   yDesc,
+    const void                                *y,
+    const TensorDescriptor&                   dyDesc,
+    const void                                *dy,
+    const void                                *beta,
+    const TensorDescriptor&                   dxDesc,
+    void                                      *dx )
   {
     // TODO: implement this...
   }
 
   auto setPooling2dDescriptor (
-    PoolingDescriptor                   poolingDesc,
-    PoolingMode&                        mode,
-    const NanPropagation&               maxpoolingNanOpt,
-    int                                 windowHeight,
-    int                                 windowWidth,
-    int                                 verticalPadding,
-    int                                 horizontalPadding,
-    int                                 verticalStride,
-    int                                 horizontalStride )
+    PoolingDescriptor                         poolingDesc,
+    PoolingMode&                              mode,
+    const NanPropagation&                     maxpoolingNanOpt,
+    int                                       windowHeight,
+    int                                       windowWidth,
+    int                                       verticalPadding,
+    int                                       horizontalPadding,
+    int                                       verticalStride,
+    int                                       horizontalStride )
   {
     // TODO: implement this...
   }
 
   auto getPooling2dDescriptor (
-    const PoolingDescriptor             poolingDesc,
-    PoolingMode&                       mode,
-    const NanPropagation&              maxpoolingNanOpt,
-    int                                *windowHeight,
-    int                                *windowWidth,
-    int                                *verticalPadding,
-    int                                *horizontalPadding,
-    int                                *verticalStride,
-    int                                *horizontalStride )
+    const PoolingDescriptor                   poolingDesc,
+    PoolingMode&                              mode,
+    const NanPropagation&                     maxpoolingNanOpt,
+    int                                       *windowHeight,
+    int                                       *windowWidth,
+    int                                       *verticalPadding,
+    int                                       *horizontalPadding,
+    int                                       *verticalStride,
+    int                                       *horizontalStride )
   {
     // TODO: implement this...
   }
 
   auto setPoolingNdDescriptor (
-    PoolingDescriptor                   poolingDesc,
-    const PoolingMode&                  mode,
-    const NanPropagation&         maxpoolingNanOpt,
-    int                                 nbDims,
-    const int                           windowDimA[],
-    const int                           paddingA[],
-    const int                           strideA[] )
+    PoolingDescriptor                         poolingDesc,
+    const PoolingMode&                        mode,
+    const NanPropagation&                     maxpoolingNanOpt,
+    int                                       nbDims,
+    const int                                 windowDimA[],
+    const int                                 paddingA[],
+    const int                                 strideA[] )
   {
     // TODO: implement this...
   }
 
   auto getPoolingNdDescriptor (
-    const PoolingDescriptor             poolingDesc,
-    int                                 nbDimsRequested,
-    PoolingMode&                       mode,
-    const NanPropagation&              maxpoolingNanOpt,
-    int                                *nbDims,
-    int                                 windowDimA[],
-    int                                 paddingA[],
-    int                                 strideA[] )
+    const PoolingDescriptor                   poolingDesc,
+    int                                       nbDimsRequested,
+    PoolingMode&                              mode,
+    const NanPropagation&                     maxpoolingNanOpt,
+    int                                       *nbDims,
+    int                                       windowDimA[],
+    int                                       paddingA[],
+    int                                       strideA[] )
   {
     // TODO: implement this...
   }
 
-  // m.def("cudnnDestroyPoolingDescriptor", ...) - Use PoolingDescriptor instead
-  // TODO: throw exception saying exactly that
-
   auto getPoolingNdForwardOutputDim (
-    const PoolingDescriptor             poolingDesc,
-    const TensorDescriptor&             inputTensorDesc,
-    int                                 nbDims,
-    int                                 outputTensorDimA[] )
+    const PoolingDescriptor                   poolingDesc,
+    const TensorDescriptor&                   inputTensorDesc,
+    int                                       nbDims,
+    int                                       outputTensorDimA[] )
   {
     // TODO: implement this...
   }
 
   auto getPooling2dForwardOutputDim (
-    const PoolingDescriptor             poolingDesc,
-    const TensorDescriptor&             inputTensorDesc,
-    int                                *n,
-    int                                *c,
-    int                                *h,
-    int                                *w )
+    const PoolingDescriptor                   poolingDesc,
+    const TensorDescriptor&                   inputTensorDesc,
+    int                                       *n,
+    int                                       *c,
+    int                                       *h,
+    int                                       *w )
   {
     // TODO: implement this...
   }
 
   auto poolingForward (
-    const Handle&                       handle,
-    const PoolingDescriptor             poolingDesc,
-    const void                         *alpha,
-    const TensorDescriptor&             xDesc,
-    const void                         *x,
-    const void                         *beta,
-    const TensorDescriptor&             yDesc,
-    void                               *y )
+    const Handle&                             handle,
+    const PoolingDescriptor                   poolingDesc,
+    const void                                *alpha,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const void                                *beta,
+    const TensorDescriptor&                   yDesc,
+    void                                      *y )
   {
     // TODO: implement this...
   }
 
-/* Function to perform backward pooling */
   auto poolingBackward (
-    const Handle&                       handle,
-    const PoolingDescriptor             poolingDesc,
-    const void                          *alpha,
-    const TensorDescriptor&             yDesc,
-    const void                         *y,
-    const TensorDescriptor&             dyDesc,
-    const void                         *dy,
-    const TensorDescriptor&             xDesc,
-    const void                         *x,
-    const void                         *beta,
-    const TensorDescriptor&             dxDesc,
-    void                               *dx )
+    const Handle&                             handle,
+    const PoolingDescriptor                   poolingDesc,
+    const void                                *alpha,
+    const TensorDescriptor&                   yDesc,
+    const void                                *y,
+    const TensorDescriptor&                   dyDesc,
+    const void                                *dy,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const void                                *beta,
+    const TensorDescriptor&                   dxDesc,
+    void                                      *dx )
   {
     // TODO: implement this...
   }
 
   auto activationForward (
-    const Handle&                       handle,
-    const ActivationDescriptor&         activationDesc,
-    const float                         alpha,
-    const TensorDescriptor&             xDesc,
-    const void                          *x,
-    const float                         beta,
-    const TensorDescriptor&             yDesc,
-    void                                *y )
+    const Handle&                             handle,
+    const ActivationDescriptor&               activationDesc,
+    const float                               alpha,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const float                               beta,
+    const TensorDescriptor&                   yDesc,
+    void                                      *y )
   {
     checkStatus(
       cudnnActivationForward(
-        handle, 
+        handle,
         activationDesc,
         &alpha,
         xDesc,
@@ -994,18 +990,18 @@ namespace PyCuDNN {
   }
 
   auto activationBackward (
-    const Handle&                       handle,
-    const ActivationDescriptor&         activationDesc,
-    const float                         alpha,
-    const TensorDescriptor&             yDesc,
-    const long long                     y,
-    const TensorDescriptor&             dyDesc,
-    const long long                     dy,
-    const TensorDescriptor&             xDesc,
-    const long long                     x,
-    const float                         beta,
-    const TensorDescriptor&             dxDesc,
-    const long long                     dx )
+    const Handle&                             handle,
+    const ActivationDescriptor&               activationDesc,
+    const float                               alpha,
+    const TensorDescriptor&                   yDesc,
+    const long long                           y,
+    const TensorDescriptor&                   dyDesc,
+    const long long                           dy,
+    const TensorDescriptor&                   xDesc,
+    const long long                           x,
+    const float                               beta,
+    const TensorDescriptor&                   dxDesc,
+    const long long                           dx )
   {
     checkStatus(
       cudnnActivationBackward(
@@ -1024,10 +1020,10 @@ namespace PyCuDNN {
   }
 
   auto setActivationDescriptor (
-    const ActivationDescriptor&         activationDesc,
-    const ActivationMode&               mode,
-    const NanPropagation&               reluNanOpt,
-    double                              reluCeiling )
+    const ActivationDescriptor&               activationDesc,
+    const ActivationMode&                     mode,
+    const NanPropagation&                     reluNanOpt,
+    double                                    reluCeiling )
   {
     checkStatus(
       cudnnSetActivationDescriptor(
@@ -1038,79 +1034,79 @@ namespace PyCuDNN {
   }
 
   auto getActivationDescriptor (
-    const ActivationDescriptor&   activationDesc,
-    const ActivationMode&              mode,
-    const NanPropagation&              reluNanOpt,
-    double*                             reluCeiling )
+    const ActivationDescriptor&               activationDesc,
+    const ActivationMode&                     mode,
+    const NanPropagation&                     reluNanOpt,
+    double*                                   reluCeiling )
   {
     // TODO: implement this...
   }
 
   auto setLRNDescriptor (
-    const LRNDescriptor&                normDesc,
-    unsigned                            lrnN,
-    double                              lrnAlpha,
-    double                              lrnBeta,
-    double                              lrnK )
+    const LRNDescriptor&                      normDesc,
+    unsigned                                  lrnN,
+    double                                    lrnAlpha,
+    double                                    lrnBeta,
+    double                                    lrnK )
   {
     // TODO: implement this...
   }
 
   auto getLRNDescriptor (
-    const LRNDescriptor&                normDesc,
-    unsigned*                           lrnN,
-    double*                             lrnAlpha,
-    double*                             lrnBeta,
-    double*                             lrnK )
+    const LRNDescriptor&                      normDesc,
+    unsigned*                                 lrnN,
+    double*                                   lrnAlpha,
+    double*                                   lrnBeta,
+    double*                                   lrnK )
   {
     // TODO: implement this...
   }
 
   auto lrnCrossChannelForward (
-    const Handle&                       handle,
-    const LRNDescriptor&                normDesc,
-    const LRNMode&                      lrnMode,
-    const void*                         alpha,
-    const TensorDescriptor&       xDesc,
-    const void                         *x,
-    const void                         *beta,
-    const TensorDescriptor&       yDesc,
-    void                               *y )
+    const Handle&                             handle,
+    const LRNDescriptor&                      normDesc,
+    const LRNMode&                            lrnMode,
+    const void*                               alpha,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const void                                *beta,
+    const TensorDescriptor&                   yDesc,
+    void                                      *y )
   {
     // TODO: implement this...
   }
 
   auto lrnCrossChannelBackward (
-    const Handle&                       handle,
-    const LRNDescriptor&                normDesc,
-    const LRNMode&                      lrnMode,
-    const void*                         alpha,
-    const TensorDescriptor&       yDesc,
-    const void                         *y,
-    const TensorDescriptor&       dyDesc,
-    const void                         *dy,
-    const TensorDescriptor&       xDesc,
-    const void                         *x,
-    const void                         *beta,
-    const TensorDescriptor&       dxDesc,
-    void                               *dx)
+    const Handle&                             handle,
+    const LRNDescriptor&                      normDesc,
+    const LRNMode&                            lrnMode,
+    const void*                               alpha,
+    const TensorDescriptor&                   yDesc,
+    const void                                *y,
+    const TensorDescriptor&                   dyDesc,
+    const void                                *dy,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const void                                *beta,
+    const TensorDescriptor&                   dxDesc,
+    void                                      *dx)
   {
     // TODO: implement this...
   }
 
   auto divisiveNormalizationForward (
-    const Handle&                       handle,
-    const LRNDescriptor&                normDesc,
-    const DivNormMode&                  mode,
-    const void                         *alpha,
-    const TensorDescriptor&       xDesc, /* same desc for means, temp, temp2*/
-    const void                         *x,
-    const void                         *means, /* if NULL, means are assumed to be zero*/
-    void                               *temp,
-    void                               *temp2,
-    const void                         *beta,
-    const TensorDescriptor&       yDesc,
-    void                               *y )
+    const Handle&                             handle,
+    const LRNDescriptor&                      normDesc,
+    const DivNormMode&                        mode,
+    const void                                *alpha,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const void                                *means,
+    void                                      *temp,
+    void                                      *temp2,
+    const void                                *beta,
+    const TensorDescriptor&                   yDesc,
+    void                                      *y )
   {
     // TODO: implement this...
   }
@@ -1120,15 +1116,15 @@ namespace PyCuDNN {
     const LRNDescriptor&                      normDesc,
     const DivNormMode&                        mode,
     const void                                *alpha,
-    const TensorDescriptor&                   xDesc, /* same desc for x, means, dy, temp, temp2*/
+    const TensorDescriptor&                   xDesc,
     const void                                *x,
-    const void                                *means, /* if NULL, means are assumed to be zero*/
+    const void                                *means,
     const void                                *dy,
     void                                      *temp,
     void                                      *temp2,
     const void                                *beta,
-    const TensorDescriptor&                   dXdMeansDesc, /* same desc for dx, dMeans*/
-    void                                      *dx, /* output x differential*/
+    const TensorDescriptor&                   dXdMeansDesc,
+    void                                      *dx,
     void                                      *dMeans )
     {
       // TODO: implement this...
@@ -1137,12 +1133,12 @@ namespace PyCuDNN {
   auto batchNormalizationForwardInference (
     const Handle&                             handle,
     const BatchNormMode&                      mode,
-    const void                                *alpha, /* alpha[0] = result blend factor*/
-    const void                                *beta,  /* beta[0] = dest layer blend factor*/
+    const void                                *alpha,
+    const void                                *beta,
     const TensorDescriptor&                   xDesc,
-    const void                                *x,     /* NxCxHxW*/
+    const void                                *x,
     const TensorDescriptor&                   yDesc,
-    void                                      *y,     /* NxCxHxW*/
+    void                                      *y,
     const TensorDescriptor&                   bnScaleBiasMeanVarDesc,
     const void                                *bnScale,
     const void                                *bnBias,
@@ -1154,54 +1150,23 @@ namespace PyCuDNN {
   }
 
   auto batchNormalizationForwardTraining (
-    const Handle&                       handle,
-    const BatchNormMode&                mode,
-
-    const void                         *alpha, /* alpha[0] = result blend factor*/
-    const void                         *beta,  /* beta[0] = dest layer blend factor*/
-
-    const TensorDescriptor&       xDesc,
-    const void                         *x,     /* NxCxHxW*/
-    const TensorDescriptor&       yDesc,
-    void                               *y,     /* NxCxHxW*/
-
-    /* Shared desc for the next 6 tensors in the argument list.
-       Data type to be set as follows:
-       type = (typeOf(x) == double) ? double : float
-       Dimensions for this descriptor depend on normalization mode
-       - Spatial Normalization : tensors are expected to have dims 1xCx1x1
-        (normalization is performed across NxHxW)
-       - Per-Activation Normalization : tensors are expected to have dims of 1xCxHxW
-        (normalization is performed across N) */
-    const TensorDescriptor&       bnScaleBiasMeanVarDesc,
-
-    /* 'Gamma' and 'Beta' respectively in Ioffe and Szegedy's paper's notation*/
-    const void                         *bnScale,
-    const void                         *bnBias,
-
-    /* MUST use factor=1 in the very first call of a complete training cycle.
-       Use a factor=1/(1+n) at N-th call to the function to get
-       Cumulative Moving Average (CMA) behavior
-       CMA[n] = (x[1]+...+x[n])/n
-       Since CMA[n+1] = (n*CMA[n]+x[n+1])/(n+1) =
-       ((n+1)*CMA[n]-CMA[n])/(n+1) + x[n+1]/(n+1) =
-       CMA[n]*(1-1/(n+1)) + x[n+1]*1/(n+1) */
-    double                              exponentialAverageFactor,
-
-    /* Used in Training phase only.
-       runningMean = newMean*factor + runningMean*(1-factor) */
-    void                               *resultRunningMean,
-    /* Output in training mode, input in inference. Is the moving average
-       of  variance[x] (factor is applied in the same way as for runningMean) */
-    void                               *resultRunningVariance,
-
-    /* Has to be >= CUDNN_BN_MIN_EPSILON. Should be the same in forward and backward functions. */
-    double                              epsilon,
-
-    /* Optionally save intermediate results from the forward pass here
-       - can be reused to speed up backward pass. NULL if unused */
-    void                               *resultSaveMean,
-    void                               *resultSaveInvVariance )
+    const Handle&                             handle,
+    const BatchNormMode&                      mode,
+    const void                                *alpha,
+    const void                                *beta,
+    const TensorDescriptor&                   xDesc,
+    const void                                *x,
+    const TensorDescriptor&                   yDesc,
+    void                                      *y,
+    const TensorDescriptor&                   bnScaleBiasMeanVarDesc,
+    const void                                *bnScale,
+    const void                                *bnBias,
+    double                                    exponentialAverageFactor,
+    void                                      *resultRunningMean,
+    void                                      *resultRunningVariance,
+    double                                    epsilon,
+    void                                      *resultSaveMean,
+    void                                      *resultSaveInvVariance )
   {
     // TODO: implement this...
   }
@@ -1458,7 +1423,7 @@ namespace PyCuDNN {
 
   auto dropoutBackward (
     const Handle&                             handle,
-    const DropoutDescriptor&            dropoutDesc,
+    const DropoutDescriptor&                  dropoutDesc,
     const TensorDescriptor&                   dydesc,
     const void                                *dy,
     const TensorDescriptor&                   dxdesc,
@@ -1472,7 +1437,7 @@ namespace PyCuDNN {
   auto setSpatialTransformerNdDescriptor (
     const SpatialTransformerDescriptor&       stDesc,
     const SamplerType&                        samplerType,
-    DataType&                                             dataType,
+    DataType&                                 dataType,
     const int                                 nbDims,
     const int                                 dimA[])
   {
@@ -1481,7 +1446,7 @@ namespace PyCuDNN {
 
   auto spatialTfGridGeneratorForward (
     const Handle&                             handle,
-    const SpatialTransformerDescriptor& stDesc,
+    const SpatialTransformerDescriptor&       stDesc,
     const void                                *theta,
     void                                      *grid)
   {
@@ -1490,7 +1455,7 @@ namespace PyCuDNN {
 
   auto spatialTfGridGeneratorBackward (
     const Handle&                             handle,
-    const SpatialTransformerDescriptor& stDesc,
+    const SpatialTransformerDescriptor&       stDesc,
     const void                                *dgrid,
     void                                      *dtheta)
   {
@@ -1533,19 +1498,115 @@ namespace PyCuDNN {
 }
 
 PYBIND11_PLUGIN(pycudnn) {
+  using namespace PyCuDNN;
 
-	py::module m("pycudnn", "Python interface to NVIDIA CuDNN library");
+  py::module m("pycudnn", R"docstring(
 
-	using namespace PyCuDNN;
+    .. currentmodule:: pycudnn
 
-    py::register_exception<PyCuDNN::Exception>(m, "Exception");
+    Classes:
+    --------
 
-    int alsdfjaldkjf = 1;
+    .. autosummary::
+       :toctree: _generate
 
-	py::class_<ActivationDescriptor>(m, "ActivationDescriptor")
-		.def(py::init<>());
+       ActivationDescriptor
+       ConvolutionBwdDataAlgoPerf
+       ConvolutionDescriptor
+       FilterDescriptor
+       DropoutDescriptor
+       Handle
+       OpTensorDescriptor
+       PoolingDescriptor
+       LRNDescriptor
+       RNNDescriptor
+       SpatialTransformerDescriptor
+       TensorDescriptor
+       ConvolutionBwdFilterAlgoPerf
+       ConvolutionFwdAlgoPerf
 
-	py::class_<ConvolutionBwdDataAlgoPerf>(m, "ConvolutionBwdDataAlgoPerf")
+
+    Enums:
+    ------
+
+    .. autosummary::
+       :toctree: _generate
+
+       ActivationMode
+       BatchNormMode
+       ConvolutionBwdDataAlgo
+       ConvolutionBwdDataPreference
+       ConvolutionBwdFilterAlgo
+       ConvolutionBwdFilterPreference
+       ConvolutionFwdAlgo
+       ConvolutionFwdPreference
+       ConvolutionMode
+       DataType
+       DirectionMode
+       DivNormMode
+       LRNMode
+       NanPropagation
+       OpTensorOp
+       PoolingMode
+       RNNInputMode
+       RNNMode
+       SamplerType
+       SoftmaxAlgorithm
+       SoftmaxMode
+       Status
+       TensorFormat
+
+
+    Functions:
+    ----------
+
+    .. autosummary::
+       :toctree: _generate
+
+       get_version
+       get_error_string
+       set_tensor_4d_descriptor
+       set_tensor_4d_descriptor_ex
+       get_tensor_4d_descriptor
+       set_tensor_nd_descriptor
+       get_tensor_nd_descriptor
+       transform_tensor
+       add_tensor
+       op_tensor
+       set_tensor
+       scale_tensor
+       set_filter_4d_descriptor
+       get_filter_4d_descriptor
+       set_filter_nd_descriptor
+       get_filter_nd_descriptor
+       set_convolution_2d_descriptor
+       get_convolution_2d_descriptor
+       get_convolution_2d_forward_output_dim
+       set_convolution_nd_descriptor
+       get_convolution_nd_descriptor
+       get_convolution_nd_forward_output_dim
+       find_convolution_forward_algorithm
+       find_convolution_forward_algorithm_ex
+       get_convolution_forward_algorithm
+       get_convolution_forward_workspace_size
+       convolution_forward
+       convolution_backward_bias
+       find_convolution_backward_filter_algorithm
+       find_convolution_backward_filter_algorithm_ex
+       activation_forward
+       activation_backward
+       set_activation_descriptor
+
+
+
+    )docstring");
+
+  py::register_exception<PyCuDNN::Exception>(m, "Exception");
+
+  py::class_<ActivationDescriptor>(m, "ActivationDescriptor")
+    .def(py::init<>());
+
+  py::class_<ConvolutionBwdDataAlgoPerf>(m, "ConvolutionBwdDataAlgoPerf")
     .def_property_readonly("algo",
       [](const ConvolutionBwdDataAlgoPerf& self) { return self.algo; })
     .def_property_readonly("status",
@@ -1555,87 +1616,92 @@ PYBIND11_PLUGIN(pycudnn) {
     .def_property_readonly("memory",
       [](const ConvolutionBwdDataAlgoPerf& self) { return self.memory; });
 
-	py::class_<ConvolutionDescriptor>(m, "ConvolutionDescriptor")
-		.def(py::init<>());
+  py::class_<ConvolutionDescriptor>(m, "ConvolutionDescriptor")
+    .def(py::init<>());
 
   py::class_<FilterDescriptor>(m, "FilterDescriptor")
     .def(py::init<>());
 
-	py::class_<DropoutDescriptor>(m, "DropoutDescriptor")
-		.def(py::init<>());
+  py::class_<DropoutDescriptor>(m, "DropoutDescriptor")
+    .def(py::init<>());
 
-	py::class_<Handle>(m, "Handle")
-		.def(py::init<>());
+  py::class_<Handle>(m, "Handle")
+    .def(py::init<>());
 
-	py::class_<OpTensorDescriptor>(m, "OpTensorDescriptor")
-		.def(py::init<>());
+  py::class_<OpTensorDescriptor>(m, "OpTensorDescriptor")
+    .def(py::init<>());
 
-	py::class_<PoolingDescriptor>(m, "PoolingDescriptor")
-		.def(py::init<>());
+  py::class_<PoolingDescriptor>(m, "PoolingDescriptor")
+    .def(py::init<>());
 
   py::class_<LRNDescriptor>(m, "LRNDescriptor")
     .def(py::init<>());
 
-	py::class_<RNNDescriptor>(m, "RNNDescriptor")
-		.def(py::init<>());
+  py::class_<RNNDescriptor>(m, "RNNDescriptor")
+    .def(py::init<>());
 
-	py::class_<SpatialTransformerDescriptor>(m, "SpatialTransformerDescriptor")
-		.def(py::init<>());
+  py::class_<SpatialTransformerDescriptor>(m, "SpatialTransformerDescriptor")
+    .def(py::init<>());
 
-	py::class_<TensorDescriptor>(m, "TensorDescriptor")
-		.def(py::init<>());
+  py::class_<TensorDescriptor>(m, "TensorDescriptor")
+    .def(py::init<>());
 
-	py::enum_<ActivationMode>(m, "ActivationMode")
-		.value("CUDNN_ACTIVATION_SIGMOID",
-				CUDNN_ACTIVATION_SIGMOID)
-		.value("CUDNN_ACTIVATION_RELU",
-				CUDNN_ACTIVATION_RELU)
-		.value("CUDNN_ACTIVATION_TANH",
-				CUDNN_ACTIVATION_TANH)
-		.value("CUDNN_ACTIVATION_CLIPPED_RELU",
-				CUDNN_ACTIVATION_CLIPPED_RELU);
+  py::enum_<ActivationMode>(m, "ActivationMode")
+    .value("CUDNN_ACTIVATION_SIGMOID",
+        CUDNN_ACTIVATION_SIGMOID)
+    .value("CUDNN_ACTIVATION_RELU",
+        CUDNN_ACTIVATION_RELU)
+    .value("CUDNN_ACTIVATION_TANH",
+        CUDNN_ACTIVATION_TANH)
+    .value("CUDNN_ACTIVATION_CLIPPED_RELU",
+        CUDNN_ACTIVATION_CLIPPED_RELU)
+    .export_values();
 
-	py::enum_<BatchNormMode>(m, "BatchNormMode")
-		.value("CUDNN_BATCHNORM_PER_ACTIVATION",
-				CUDNN_BATCHNORM_PER_ACTIVATION)
-		.value("CUDNN_BATCHNORM_SPATIAL",
-				CUDNN_BATCHNORM_SPATIAL);
+  py::enum_<BatchNormMode>(m, "BatchNormMode")
+    .value("CUDNN_BATCHNORM_PER_ACTIVATION",
+        CUDNN_BATCHNORM_PER_ACTIVATION)
+    .value("CUDNN_BATCHNORM_SPATIAL",
+        CUDNN_BATCHNORM_SPATIAL)
+    .export_values();
 
-	py::enum_<ConvolutionBwdDataAlgo>(m, "ConvolutionBwdDataAlgo")
-		.value("CUDNN_CONVOLUTION_BWD_DATA_ALGO_0",
-				CUDNN_CONVOLUTION_BWD_DATA_ALGO_0)
-		.value("CUDNN_CONVOLUTION_BWD_DATA_ALGO_1",
-				CUDNN_CONVOLUTION_BWD_DATA_ALGO_1)
-		.value("CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT",
-				CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT)
-		.value("CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING",
-				CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING)
-		.value("CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD",
-				CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD)
-		.value("CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD_NONFUSED",
-				CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD_NONFUSED);
+  py::enum_<ConvolutionBwdDataAlgo>(m, "ConvolutionBwdDataAlgo")
+    .value("CUDNN_CONVOLUTION_BWD_DATA_ALGO_0",
+        CUDNN_CONVOLUTION_BWD_DATA_ALGO_0)
+    .value("CUDNN_CONVOLUTION_BWD_DATA_ALGO_1",
+        CUDNN_CONVOLUTION_BWD_DATA_ALGO_1)
+    .value("CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT",
+        CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT)
+    .value("CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING",
+        CUDNN_CONVOLUTION_BWD_DATA_ALGO_FFT_TILING)
+    .value("CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD",
+        CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD)
+    .value("CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD_NONFUSED",
+        CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD_NONFUSED)
+    .export_values();
 
-	py::enum_<ConvolutionBwdDataPreference>(m, "ConvolutionBwdDataPreference")
-		.value("CUDNN_CONVOLUTION_BWD_DATA_NO_WORKSPACE",
-				CUDNN_CONVOLUTION_BWD_DATA_NO_WORKSPACE)
-		.value("CUDNN_CONVOLUTION_BWD_DATA_PREFER_FASTEST",
-				CUDNN_CONVOLUTION_BWD_DATA_PREFER_FASTEST)
-		.value("CUDNN_CONVOLUTION_BWD_DATA_SPECIFY_WORKSPACE_LIMIT",
-				CUDNN_CONVOLUTION_BWD_DATA_SPECIFY_WORKSPACE_LIMIT);
+  py::enum_<ConvolutionBwdDataPreference>(m, "ConvolutionBwdDataPreference")
+    .value("CUDNN_CONVOLUTION_BWD_DATA_NO_WORKSPACE",
+        CUDNN_CONVOLUTION_BWD_DATA_NO_WORKSPACE)
+    .value("CUDNN_CONVOLUTION_BWD_DATA_PREFER_FASTEST",
+        CUDNN_CONVOLUTION_BWD_DATA_PREFER_FASTEST)
+    .value("CUDNN_CONVOLUTION_BWD_DATA_SPECIFY_WORKSPACE_LIMIT",
+        CUDNN_CONVOLUTION_BWD_DATA_SPECIFY_WORKSPACE_LIMIT)
+    .export_values();
 
-	py::enum_<ConvolutionBwdFilterAlgo>(m, "ConvolutionBwdFilterAlgo")
-		.value("CUDNN_CONVOLUTION_BWD_FILTER_ALGO_0",
-				CUDNN_CONVOLUTION_BWD_FILTER_ALGO_0)
-		.value("CUDNN_CONVOLUTION_BWD_FILTER_ALGO_1",
-				CUDNN_CONVOLUTION_BWD_FILTER_ALGO_1)
-		.value("CUDNN_CONVOLUTION_BWD_FILTER_ALGO_FFT",
-				CUDNN_CONVOLUTION_BWD_FILTER_ALGO_FFT)
-		.value("CUDNN_CONVOLUTION_BWD_FILTER_ALGO_3",
-				CUDNN_CONVOLUTION_BWD_FILTER_ALGO_3)
-		.value("CUDNN_CONVOLUTION_BWD_FILTER_ALGO_WINOGRAD_NONFUSED",
-				CUDNN_CONVOLUTION_BWD_FILTER_ALGO_WINOGRAD_NONFUSED);
+  py::enum_<ConvolutionBwdFilterAlgo>(m, "ConvolutionBwdFilterAlgo")
+    .value("CUDNN_CONVOLUTION_BWD_FILTER_ALGO_0",
+        CUDNN_CONVOLUTION_BWD_FILTER_ALGO_0)
+    .value("CUDNN_CONVOLUTION_BWD_FILTER_ALGO_1",
+        CUDNN_CONVOLUTION_BWD_FILTER_ALGO_1)
+    .value("CUDNN_CONVOLUTION_BWD_FILTER_ALGO_FFT",
+        CUDNN_CONVOLUTION_BWD_FILTER_ALGO_FFT)
+    .value("CUDNN_CONVOLUTION_BWD_FILTER_ALGO_3",
+        CUDNN_CONVOLUTION_BWD_FILTER_ALGO_3)
+    .value("CUDNN_CONVOLUTION_BWD_FILTER_ALGO_WINOGRAD_NONFUSED",
+        CUDNN_CONVOLUTION_BWD_FILTER_ALGO_WINOGRAD_NONFUSED)
+    .export_values();
 
-	py::class_<ConvolutionBwdFilterAlgoPerf>(m, "ConvolutionBwdFilterAlgoPerf")
+  py::class_<ConvolutionBwdFilterAlgoPerf>(m, "ConvolutionBwdFilterAlgoPerf")
     .def_property_readonly("algo",
       [](const ConvolutionBwdFilterAlgoPerf& self) { return self.algo; })
     .def_property_readonly("status",
@@ -1645,33 +1711,35 @@ PYBIND11_PLUGIN(pycudnn) {
     .def_property_readonly("memory",
       [](const ConvolutionBwdFilterAlgoPerf& self) { return self.memory; });
 
-	py::enum_<ConvolutionBwdFilterPreference>(m, "ConvolutionBwdFilterPreference")
-		.value("CUDNN_CONVOLUTION_BWD_FILTER_NO_WORKSPACE",
-				CUDNN_CONVOLUTION_BWD_FILTER_NO_WORKSPACE)
-		.value("CUDNN_CONVOLUTION_BWD_FILTER_PREFER_FASTEST",
-				CUDNN_CONVOLUTION_BWD_FILTER_PREFER_FASTEST)
-		.value("CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT",
-				CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT);
+  py::enum_<ConvolutionBwdFilterPreference>(m, "ConvolutionBwdFilterPreference")
+    .value("CUDNN_CONVOLUTION_BWD_FILTER_NO_WORKSPACE",
+        CUDNN_CONVOLUTION_BWD_FILTER_NO_WORKSPACE)
+    .value("CUDNN_CONVOLUTION_BWD_FILTER_PREFER_FASTEST",
+        CUDNN_CONVOLUTION_BWD_FILTER_PREFER_FASTEST)
+    .value("CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT",
+        CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT)
+    .export_values();
 
-	py::enum_<ConvolutionFwdAlgo>(m, "ConvolutionFwdAlgo")
-		.value("CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_GEMM",
-				CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_GEMM)
-		.value("CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_PRECOMP_GEMM",
-				CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_PRECOMP_GEMM)
-		.value("CUDNN_CONVOLUTION_FWD_ALGO_GEMM",
-				CUDNN_CONVOLUTION_FWD_ALGO_GEMM)
-		.value("CUDNN_CONVOLUTION_FWD_ALGO_DIRECT",
-				CUDNN_CONVOLUTION_FWD_ALGO_DIRECT)
-		.value("CUDNN_CONVOLUTION_FWD_ALGO_FFT",
-				CUDNN_CONVOLUTION_FWD_ALGO_FFT)
-		.value("CUDNN_CONVOLUTION_FWD_ALGO_FFT_TILING",
-				CUDNN_CONVOLUTION_FWD_ALGO_FFT_TILING)
-		.value("CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD",
-				CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD)
-		.value("CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD_NONFUSED",
-				CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD_NONFUSED);
+  py::enum_<ConvolutionFwdAlgo>(m, "ConvolutionFwdAlgo")
+    .value("CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_GEMM",
+        CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_GEMM)
+    .value("CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_PRECOMP_GEMM",
+        CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_PRECOMP_GEMM)
+    .value("CUDNN_CONVOLUTION_FWD_ALGO_GEMM",
+        CUDNN_CONVOLUTION_FWD_ALGO_GEMM)
+    .value("CUDNN_CONVOLUTION_FWD_ALGO_DIRECT",
+        CUDNN_CONVOLUTION_FWD_ALGO_DIRECT)
+    .value("CUDNN_CONVOLUTION_FWD_ALGO_FFT",
+        CUDNN_CONVOLUTION_FWD_ALGO_FFT)
+    .value("CUDNN_CONVOLUTION_FWD_ALGO_FFT_TILING",
+        CUDNN_CONVOLUTION_FWD_ALGO_FFT_TILING)
+    .value("CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD",
+        CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD)
+    .value("CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD_NONFUSED",
+        CUDNN_CONVOLUTION_FWD_ALGO_WINOGRAD_NONFUSED)
+    .export_values();
 
-	py::class_<ConvolutionFwdAlgoPerf>(m, "ConvolutionFwdAlgoPerf")
+  py::class_<ConvolutionFwdAlgoPerf>(m, "ConvolutionFwdAlgoPerf")
     .def_property_readonly("algo",
       [](const ConvolutionFwdAlgoPerf& self) { return self.algo; })
     .def_property_readonly("status",
@@ -1681,125 +1749,141 @@ PYBIND11_PLUGIN(pycudnn) {
     .def_property_readonly("memory",
       [](const ConvolutionFwdAlgoPerf& self) { return self.memory; });
 
-	py::enum_<ConvolutionFwdPreference>(m, "ConvolutionFwdPreference")
-		.value("CUDNN_CONVOLUTION_FWD_NO_WORKSPACE",
-				CUDNN_CONVOLUTION_FWD_NO_WORKSPACE)
-		.value("CUDNN_CONVOLUTION_FWD_PREFER_FASTEST",
-				CUDNN_CONVOLUTION_FWD_PREFER_FASTEST)
-		.value("CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT",
-				CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT);
+  py::enum_<ConvolutionFwdPreference>(m, "ConvolutionFwdPreference")
+    .value("CUDNN_CONVOLUTION_FWD_NO_WORKSPACE",
+        CUDNN_CONVOLUTION_FWD_NO_WORKSPACE)
+    .value("CUDNN_CONVOLUTION_FWD_PREFER_FASTEST",
+        CUDNN_CONVOLUTION_FWD_PREFER_FASTEST)
+    .value("CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT",
+        CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT)
+    .export_values();
 
-	py::enum_<ConvolutionMode>(m, "ConvolutionMode")
-		.value("CUDNN_CONVOLUTION",
-				CUDNN_CONVOLUTION)
-		.value("CUDNN_CROSS_CORRELATION",
-				CUDNN_CROSS_CORRELATION);
+  py::enum_<ConvolutionMode>(m, "ConvolutionMode")
+    .value("CUDNN_CONVOLUTION",
+        CUDNN_CONVOLUTION)
+    .value("CUDNN_CROSS_CORRELATION",
+        CUDNN_CROSS_CORRELATION)
+    .export_values();
 
-	py::enum_<DataType>(m, "DataType")
-		.value("CUDNN_DATA_FLOAT",
-				CUDNN_DATA_FLOAT)
-		.value("CUDNN_DATA_DOUBLE",
-				CUDNN_DATA_DOUBLE);
+  py::enum_<DataType>(m, "DataType")
+    .value("CUDNN_DATA_FLOAT",
+        CUDNN_DATA_FLOAT)
+    .value("CUDNN_DATA_DOUBLE",
+        CUDNN_DATA_DOUBLE)
+    .export_values();
 
-	py::enum_<DirectionMode>(m, "DirectionMode")
-		.value("CUDNN_UNIDIRECTIONAL",
-				CUDNN_UNIDIRECTIONAL)
-		.value("CUDNN_BIDIRECTIONAL",
-				CUDNN_BIDIRECTIONAL);
+  py::enum_<DirectionMode>(m, "DirectionMode")
+    .value("CUDNN_UNIDIRECTIONAL",
+        CUDNN_UNIDIRECTIONAL)
+    .value("CUDNN_BIDIRECTIONAL",
+        CUDNN_BIDIRECTIONAL)
+    .export_values();
 
-	py::enum_<DivNormMode>(m, "DivNormMode")
-		.value("CUDNN_DIVNORM_PRECOMPUTED_MEANS",
-				CUDNN_DIVNORM_PRECOMPUTED_MEANS);
+  py::enum_<DivNormMode>(m, "DivNormMode")
+    .value("CUDNN_DIVNORM_PRECOMPUTED_MEANS",
+        CUDNN_DIVNORM_PRECOMPUTED_MEANS)
+    .export_values();
 
-	py::enum_<LRNMode>(m, "LRNMode")
-		.value("CUDNN_LRN_CROSS_CHANNEL_DIM1",
-				CUDNN_LRN_CROSS_CHANNEL_DIM1);
+  py::enum_<LRNMode>(m, "LRNMode")
+    .value("CUDNN_LRN_CROSS_CHANNEL_DIM1",
+        CUDNN_LRN_CROSS_CHANNEL_DIM1)
+    .export_values();
 
-	py::enum_<NanPropagation>(m, "NanPropagation")
-		.value("CUDNN_NOT_PROPAGATE_NAN",
-				CUDNN_NOT_PROPAGATE_NAN)
-		.value("CUDNN_PROPAGATE_NAN",
-				CUDNN_PROPAGATE_NAN);
+  py::enum_<NanPropagation>(m, "NanPropagation")
+    .value("CUDNN_NOT_PROPAGATE_NAN",
+        CUDNN_NOT_PROPAGATE_NAN)
+    .value("CUDNN_PROPAGATE_NAN",
+        CUDNN_PROPAGATE_NAN)
+    .export_values();
 
-	py::enum_<OpTensorOp>(m, "OpTensorOp")
-		.value("CUDNN_OP_TENSOR_ADD",
-				CUDNN_OP_TENSOR_ADD)
-		.value("CUDNN_OP_TENSOR_MUL",
-				CUDNN_OP_TENSOR_MUL)
-		.value("CUDNN_OP_TENSOR_MIN",
-				CUDNN_OP_TENSOR_MIN)
-		.value("CUDNN_OP_TENSOR_MAX",
-				CUDNN_OP_TENSOR_MAX);
+  py::enum_<OpTensorOp>(m, "OpTensorOp")
+    .value("CUDNN_OP_TENSOR_ADD",
+        CUDNN_OP_TENSOR_ADD)
+    .value("CUDNN_OP_TENSOR_MUL",
+        CUDNN_OP_TENSOR_MUL)
+    .value("CUDNN_OP_TENSOR_MIN",
+        CUDNN_OP_TENSOR_MIN)
+    .value("CUDNN_OP_TENSOR_MAX",
+        CUDNN_OP_TENSOR_MAX)
+    .export_values();
 
-	py::enum_<PoolingMode>(m, "PoolingMode")
-		.value("CUDNN_POOLING_MAX",
-				CUDNN_POOLING_MAX)
-		.value("CUDNN_POOLING_AVERAGE_COUNT_INCLUDE_PADDING",
-				CUDNN_POOLING_AVERAGE_COUNT_INCLUDE_PADDING)
-		.value("CUDNN_POOLING_AVERAGE_COUNT_EXCLUDE_PADDING",
-				CUDNN_POOLING_AVERAGE_COUNT_EXCLUDE_PADDING);
+  py::enum_<PoolingMode>(m, "PoolingMode")
+    .value("CUDNN_POOLING_MAX",
+        CUDNN_POOLING_MAX)
+    .value("CUDNN_POOLING_AVERAGE_COUNT_INCLUDE_PADDING",
+        CUDNN_POOLING_AVERAGE_COUNT_INCLUDE_PADDING)
+    .value("CUDNN_POOLING_AVERAGE_COUNT_EXCLUDE_PADDING",
+        CUDNN_POOLING_AVERAGE_COUNT_EXCLUDE_PADDING)
+    .export_values();
 
-	py::enum_<RNNInputMode>(m, "RNNInputMode")
-		.value("CUDNN_LINEAR_INPUT",
-				CUDNN_LINEAR_INPUT)
-		.value("CUDNN_SKIP_INPUT",
-				CUDNN_SKIP_INPUT);
+  py::enum_<RNNInputMode>(m, "RNNInputMode")
+    .value("CUDNN_LINEAR_INPUT",
+        CUDNN_LINEAR_INPUT)
+    .value("CUDNN_SKIP_INPUT",
+        CUDNN_SKIP_INPUT)
+    .export_values();
 
-	py::enum_<RNNMode>(m, "RNNMode")
-		.value("CUDNN_RNN_RELU",
-				CUDNN_RNN_RELU)
-		.value("CUDNN_RNN_TANH",
-				CUDNN_RNN_TANH)
-		.value("CUDNN_LSTM",
-				CUDNN_LSTM)
-		.value("CUDNN_GRU",
-				CUDNN_GRU);
+  py::enum_<RNNMode>(m, "RNNMode")
+    .value("CUDNN_RNN_RELU",
+        CUDNN_RNN_RELU)
+    .value("CUDNN_RNN_TANH",
+        CUDNN_RNN_TANH)
+    .value("CUDNN_LSTM",
+        CUDNN_LSTM)
+    .value("CUDNN_GRU",
+        CUDNN_GRU)
+    .export_values();
 
-	py::enum_<SamplerType>(m, "SamplerType")
-		.value("CUDNN_SAMPLER_BILINEAR",
-				CUDNN_SAMPLER_BILINEAR);
+  py::enum_<SamplerType>(m, "SamplerType")
+    .value("CUDNN_SAMPLER_BILINEAR",
+        CUDNN_SAMPLER_BILINEAR)
+    .export_values();
 
-	py::enum_<SoftmaxAlgorithm>(m, "SoftmaxAlgorithm")
-		.value("CUDNN_SOFTMAX_FAST",
-				CUDNN_SOFTMAX_FAST)
-		.value("CUDNN_SOFTMAX_ACCURATE",
-				CUDNN_SOFTMAX_ACCURATE)
-		.value("CUDNN_SOFTMAX_LOG",
-				CUDNN_SOFTMAX_LOG);
+  py::enum_<SoftmaxAlgorithm>(m, "SoftmaxAlgorithm")
+    .value("CUDNN_SOFTMAX_FAST",
+        CUDNN_SOFTMAX_FAST)
+    .value("CUDNN_SOFTMAX_ACCURATE",
+        CUDNN_SOFTMAX_ACCURATE)
+    .value("CUDNN_SOFTMAX_LOG",
+        CUDNN_SOFTMAX_LOG)
+    .export_values();
 
-	py::enum_<SoftmaxMode>(m, "SoftmaxMode")
-		.value("CUDNN_SOFTMAX_MODE_INSTANCE",
-				CUDNN_SOFTMAX_MODE_INSTANCE)
-		.value("CUDNN_SOFTMAX_MODE_CHANNEL",
-				CUDNN_SOFTMAX_MODE_CHANNEL);
+  py::enum_<SoftmaxMode>(m, "SoftmaxMode")
+    .value("CUDNN_SOFTMAX_MODE_INSTANCE",
+        CUDNN_SOFTMAX_MODE_INSTANCE)
+    .value("CUDNN_SOFTMAX_MODE_CHANNEL",
+        CUDNN_SOFTMAX_MODE_CHANNEL)
+    .export_values();
 
-	py::enum_<Status>(m, "Status")
-		.value("CUDNN_STATUS_SUCCESS",
-				CUDNN_STATUS_SUCCESS)
-		.value("CUDNN_STATUS_NOT_INITIALIZED",
-				CUDNN_STATUS_NOT_INITIALIZED)
-		.value("CUDNN_STATUS_ALLOC_FAILED",
-				CUDNN_STATUS_ALLOC_FAILED)
-		.value("CUDNN_STATUS_BAD_PARAM",
-				CUDNN_STATUS_BAD_PARAM)
-		.value("CUDNN_STATUS_ARCH_MISMATCH",
-				CUDNN_STATUS_ARCH_MISMATCH)
-		.value("CUDNN_STATUS_MAPPING_ERROR",
-				CUDNN_STATUS_MAPPING_ERROR)
-		.value("CUDNN_STATUS_EXECUTION_FAILED",
-				CUDNN_STATUS_EXECUTION_FAILED)
-		.value("CUDNN_STATUS_INTERNAL_ERROR",
-				CUDNN_STATUS_INTERNAL_ERROR)
-		.value("CUDNN_STATUS_NOT_SUPPORTED",
-				CUDNN_STATUS_NOT_SUPPORTED)
-		.value("CUDNN_STATUS_LICENSE_ERROR",
-				CUDNN_STATUS_LICENSE_ERROR);
+  py::enum_<Status>(m, "Status")
+    .value("CUDNN_STATUS_SUCCESS",
+        CUDNN_STATUS_SUCCESS)
+    .value("CUDNN_STATUS_NOT_INITIALIZED",
+        CUDNN_STATUS_NOT_INITIALIZED)
+    .value("CUDNN_STATUS_ALLOC_FAILED",
+        CUDNN_STATUS_ALLOC_FAILED)
+    .value("CUDNN_STATUS_BAD_PARAM",
+        CUDNN_STATUS_BAD_PARAM)
+    .value("CUDNN_STATUS_ARCH_MISMATCH",
+        CUDNN_STATUS_ARCH_MISMATCH)
+    .value("CUDNN_STATUS_MAPPING_ERROR",
+        CUDNN_STATUS_MAPPING_ERROR)
+    .value("CUDNN_STATUS_EXECUTION_FAILED",
+        CUDNN_STATUS_EXECUTION_FAILED)
+    .value("CUDNN_STATUS_INTERNAL_ERROR",
+        CUDNN_STATUS_INTERNAL_ERROR)
+    .value("CUDNN_STATUS_NOT_SUPPORTED",
+        CUDNN_STATUS_NOT_SUPPORTED)
+    .value("CUDNN_STATUS_LICENSE_ERROR",
+        CUDNN_STATUS_LICENSE_ERROR)
+    .export_values();
 
-	py::enum_<TensorFormat>(m, "TensorFormat")
-		.value("CUDNN_TENSOR_NCHW",
-				CUDNN_TENSOR_NCHW)
-		.value("CUDNN_TENSOR_NHWC",
-				CUDNN_TENSOR_NHWC);
+  py::enum_<TensorFormat>(m, "TensorFormat")
+    .value("CUDNN_TENSOR_NCHW",
+        CUDNN_TENSOR_NCHW)
+    .value("CUDNN_TENSOR_NHWC",
+        CUDNN_TENSOR_NHWC)
+    .export_values();
 
   m.def("get_version", &getVersion);
   m.def("get_error_string", &getErrorString);
@@ -1812,6 +1896,7 @@ PYBIND11_PLUGIN(pycudnn) {
   //   checkStatus(cudnnGetStream(handle, &streamId));
   //   return streamId;
   // });
+  // TODO: fix CUDA streams issue
   m.def("set_tensor_4d_descriptor", &setTensor4dDescriptor);
   m.def("set_tensor_4d_descriptor_ex", &setTensor4dDescriptorEx);
   m.def("get_tensor_4d_descriptor", &getTensor4dDescriptor);
@@ -1840,57 +1925,105 @@ PYBIND11_PLUGIN(pycudnn) {
   m.def("convolution_backward_bias", &convolutionBackwardBias);
   m.def("find_convolution_backward_filter_algorithm", &findConvolutionBackwardFilterAlgorithm);
   m.def("find_convolution_backward_filter_algorithm_ex", &findConvolutionBackwardFilterAlgorithmEx);
-  // m.def("get_convolution_backward_filter_workspace_size", &getConvolutionBackwardFilterWorkspaceSize);
-  // m.def("convolution_backward_filter", &convolutionBackwardFilter);
-  // m.def("find_convolution_backward_data_algorithm", &findConvolutionBackwardDataAlgorithm);
-  // m.def("find_convolution_backward_data_algorithm_ex", &findConvolutionBackwardDataAlgorithmEx);
-  // m.def("get_convolution_backward_data_algorithm", &getConvolutionBackwardDataAlgorithm);
-  // m.def("get_convolution_backward_data_workspace_size", &getConvolutionBackwardDataWorkspaceSize);
-  // m.def("convolution_backward_data", &convolutionBackwardData);
-  // m.def("softmax_forward", &softmaxForward);
-  // m.def("softmax_backward", &softmaxBackward);
-  // m.def("set_pooling2d_descriptor", &setPooling2dDescriptor);
-  // m.def("get_pooling2d_descriptor", &getPooling2dDescriptor);
-  // m.def("set_pooling_nd_descriptor", &setPoolingNdDescriptor);
-  // m.def("get_pooling_nd_descriptor", &getPoolingNdDescriptor);
-  // m.def("get_pooling_nd_forward_output_dim", &getPoolingNdForwardOutputDim);
-  // m.def("get_pooling2d_forward_output_dim", &getPooling2dForwardOutputDim);
-  // m.def("pooling_forward", &poolingForward);
-  // m.def("pooling_backward", &poolingBackward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_convolution_backward_filter_workspace_size", &getConvolutionBackwardFilterWorkspaceSize);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("convolution_backward_filter", &convolutionBackwardFilter);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("find_convolution_backward_data_algorithm", &findConvolutionBackwardDataAlgorithm);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("find_convolution_backward_data_algorithm_ex", &findConvolutionBackwardDataAlgorithmEx);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_convolution_backward_data_algorithm", &getConvolutionBackwardDataAlgorithm);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_convolution_backward_data_workspace_size", &getConvolutionBackwardDataWorkspaceSize);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("convolution_backward_data", &convolutionBackwardData);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("softmax_forward", &softmaxForward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("softmax_backward", &softmaxBackward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("set_pooling2d_descriptor", &setPooling2dDescriptor);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_pooling2d_descriptor", &getPooling2dDescriptor);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("set_pooling_nd_descriptor", &setPoolingNdDescriptor);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_pooling_nd_descriptor", &getPoolingNdDescriptor);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_pooling_nd_forward_output_dim", &getPoolingNdForwardOutputDim);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_pooling2d_forward_output_dim", &getPooling2dForwardOutputDim);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("pooling_forward", &poolingForward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("pooling_backward", &poolingBackward);
   m.def("activation_forward", &activationForward);
   m.def("activation_backward", &activationBackward);
   m.def("set_activation_descriptor", &setActivationDescriptor);
-  // m.def("get_activation_descriptor", &getActivationDescriptor);
-  // m.def("set_lrn_descriptor", &setLRNDescriptor);
-  // m.def("get_lrn_descriptor", &getLRNDescriptor);
-  // m.def("lrn_cross_channel_forward", &lrnCrossChannelForward);
-  // m.def("lrn_cross_channel_backward", &lrnCrossChannelBackward);
-  // m.def("divisive_normalization_forward", &divisiveNormalizationForward);
-  // m.def("divisive_normalization_backward", &divisiveNormalizationBackward);
-  // m.def("batch_normalization_forward_inference", &batchNormalizationForwardInference);
-  // m.def("batch_normalization_forward_training", &batchNormalizationForwardTraining);
-  // m.def("batch_normalization_backward", &batchNormalizationBackward);
-  // m.def("derive_bn_tensor_descriptor", &deriveBNTensorDescriptor);
-  // m.def("set_rnn_descriptor", &setRNNDescriptor);
-  // m.def("get_rnn_workspace_size", &getRNNWorkspaceSize);
-  // m.def("get_rnn_training_reserve_size", &getRNNTrainingReserveSize);
-  // m.def("get_rnn_params_size", &getRNNParamsSize);
-  // m.def("get_rnn_lin_layer_matrix_params", &getRNNLinLayerMatrixParams);
-  // m.def("get_rnn_lin_layer_bias_params", &getRNNLinLayerBiasParams);
-  // m.def("rnn_forward_inference", &rnnForwardInference);
-  // m.def("rnn_forward_training", &rnnForwardTraining);
-  // m.def("rnn_backward_data", &rnnBackwardData);
-  // m.def("rnn_backward_weights", &rnnBackwardWeights);
-  // m.def("dropout_get_states_size", &dropoutGetStatesSize);
-  // m.def("dropout_get_reserve_space_size", &dropoutGetReserveSpaceSize);
-  // m.def("set_dropout_descriptor", &setDropoutDescriptor);
-  // m.def("dropout_forward", &dropoutForward);
-  // m.def("dropout_backward", &dropoutBackward);
-  // m.def("set_spatial_transformer_nd_descriptor", &setSpatialTransformerNdDescriptor);
-  // m.def("spatial_tf_grid_generator_forward", &spatialTfGridGeneratorForward);
-  // m.def("spatial_tf_grid_generator_backward", &spatialTfGridGeneratorBackward);
-  // m.def("spatial_tf_sampler_forward", &spatialTfSamplerForward);
-  // m.def("spatial_tf_sampler_backward", &spatialTfSamplerBackward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_activation_descriptor", &getActivationDescriptor);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("set_lrn_descriptor", &setLRNDescriptor);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_lrn_descriptor", &getLRNDescriptor);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("lrn_cross_channel_forward", &lrnCrossChannelForward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("lrn_cross_channel_backward", &lrnCrossChannelBackward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("divisive_normalization_forward", &divisiveNormalizationForward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("divisive_normalization_backward", &divisiveNormalizationBackward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("batch_normalization_forward_inference", &batchNormalizationForwardInference);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("batch_normalization_forward_training", &batchNormalizationForwardTraining);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("batch_normalization_backward", &batchNormalizationBackward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("derive_bn_tensor_descriptor", &deriveBNTensorDescriptor);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("set_rnn_descriptor", &setRNNDescriptor);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_rnn_workspace_size", &getRNNWorkspaceSize);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_rnn_training_reserve_size", &getRNNTrainingReserveSize);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_rnn_params_size", &getRNNParamsSize);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_rnn_lin_layer_matrix_params", &getRNNLinLayerMatrixParams);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("get_rnn_lin_layer_bias_params", &getRNNLinLayerBiasParams);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("rnn_forward_inference", &rnnForwardInference);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("rnn_forward_training", &rnnForwardTraining);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("rnn_backward_data", &rnnBackwardData);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("rnn_backward_weights", &rnnBackwardWeights);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("dropout_get_states_size", &dropoutGetStatesSize);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("dropout_get_reserve_space_size", &dropoutGetReserveSpaceSize);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("set_dropout_descriptor", &setDropoutDescriptor);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("dropout_forward", &dropoutForward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("dropout_backward", &dropoutBackward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("set_spatial_transformer_nd_descriptor", &setSpatialTransformerNdDescriptor);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("spatial_tf_grid_generator_forward", &spatialTfGridGeneratorForward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("spatial_tf_grid_generator_backward", &spatialTfGridGeneratorBackward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("spatial_tf_sampler_forward", &spatialTfSamplerForward);
+  // TODO: implement corresponding function and uncomment:
+  //       m.def("spatial_tf_sampler_backward", &spatialTfSamplerBackward);
 
-	return m.ptr();
+  return m.ptr();
 }
