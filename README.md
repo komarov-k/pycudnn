@@ -1,4 +1,4 @@
-PyCUDNN - Python wrapper for NVIDIA cuDNN library
+PyCuDNN - Python wrapper for NVIDIA cuDNN library
 =================================================
 
 Work in progress, please check back later.
