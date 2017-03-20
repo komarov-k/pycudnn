@@ -27,7 +27,6 @@ class get_pybind_include(object):
         import pybind11
         return pybind11.get_include(self.user)
 
-
 ext_modules = [
         Extension('pycudnn', ['src/PyCuDNN.cpp'],
             include_dirs=[
@@ -52,10 +51,9 @@ ext_modules = [
         ),
 ]
 
-
 setup(
       name='pycudnn',
-      version='0.0.2',
+      version='0.0.3',
       author='Konstantyn Komarov',
       author_email='komarov.konstant@utexas.edu',
       description='Python wrapper around NVIDIA CuDNN library',
