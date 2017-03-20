@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pycudnn.SoftmaxAlgorithm &mdash; PyCuDNN 0.0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="PyCuDNN 0.0.3 documentation" href="../index.html"/>
+        <link rel="next" title="pycudnn.SoftmaxMode" href="pycudnn.SoftmaxMode.html"/>
+        <link rel="prev" title="pycudnn.SamplerType" href="pycudnn.SamplerType.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PyCuDNN
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ActivationDescriptor.html">pycudnn.ActivationDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ConvolutionBwdDataAlgoPerf.html">pycudnn.ConvolutionBwdDataAlgoPerf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ConvolutionDescriptor.html">pycudnn.ConvolutionDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.FilterDescriptor.html">pycudnn.FilterDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.DropoutDescriptor.html">pycudnn.DropoutDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.Handle.html">pycudnn.Handle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.OpTensorDescriptor.html">pycudnn.OpTensorDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.PoolingDescriptor.html">pycudnn.PoolingDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.LRNDescriptor.html">pycudnn.LRNDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.RNNDescriptor.html">pycudnn.RNNDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.SpatialTransformerDescriptor.html">pycudnn.SpatialTransformerDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.TensorDescriptor.html">pycudnn.TensorDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ConvolutionBwdFilterAlgoPerf.html">pycudnn.ConvolutionBwdFilterAlgoPerf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ConvolutionFwdAlgoPerf.html">pycudnn.ConvolutionFwdAlgoPerf</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ActivationMode.html">pycudnn.ActivationMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.BatchNormMode.html">pycudnn.BatchNormMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ConvolutionBwdDataAlgo.html">pycudnn.ConvolutionBwdDataAlgo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ConvolutionBwdDataPreference.html">pycudnn.ConvolutionBwdDataPreference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ConvolutionBwdFilterAlgo.html">pycudnn.ConvolutionBwdFilterAlgo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ConvolutionBwdFilterPreference.html">pycudnn.ConvolutionBwdFilterPreference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ConvolutionFwdAlgo.html">pycudnn.ConvolutionFwdAlgo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ConvolutionFwdPreference.html">pycudnn.ConvolutionFwdPreference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.ConvolutionMode.html">pycudnn.ConvolutionMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.DataType.html">pycudnn.DataType</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.DirectionMode.html">pycudnn.DirectionMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.DivNormMode.html">pycudnn.DivNormMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.LRNMode.html">pycudnn.LRNMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.NanPropagation.html">pycudnn.NanPropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.OpTensorOp.html">pycudnn.OpTensorOp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.PoolingMode.html">pycudnn.PoolingMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.RNNInputMode.html">pycudnn.RNNInputMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.RNNMode.html">pycudnn.RNNMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.SamplerType.html">pycudnn.SamplerType</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pycudnn.SoftmaxAlgorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.SoftmaxMode.html">pycudnn.SoftmaxMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.Status.html">pycudnn.Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.TensorFormat.html">pycudnn.TensorFormat</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.get_version.html">pycudnn.get_version</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.get_error_string.html">pycudnn.get_error_string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.set_tensor_4d_descriptor.html">pycudnn.set_tensor_4d_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.set_tensor_4d_descriptor_ex.html">pycudnn.set_tensor_4d_descriptor_ex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.get_tensor_4d_descriptor.html">pycudnn.get_tensor_4d_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.set_tensor_nd_descriptor.html">pycudnn.set_tensor_nd_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.get_tensor_nd_descriptor.html">pycudnn.get_tensor_nd_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.transform_tensor.html">pycudnn.transform_tensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.add_tensor.html">pycudnn.add_tensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.op_tensor.html">pycudnn.op_tensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.set_tensor.html">pycudnn.set_tensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.scale_tensor.html">pycudnn.scale_tensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.set_filter_4d_descriptor.html">pycudnn.set_filter_4d_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.get_filter_4d_descriptor.html">pycudnn.get_filter_4d_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.set_filter_nd_descriptor.html">pycudnn.set_filter_nd_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.get_filter_nd_descriptor.html">pycudnn.get_filter_nd_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.set_convolution_2d_descriptor.html">pycudnn.set_convolution_2d_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.get_convolution_2d_descriptor.html">pycudnn.get_convolution_2d_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.get_convolution_2d_forward_output_dim.html">pycudnn.get_convolution_2d_forward_output_dim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.set_convolution_nd_descriptor.html">pycudnn.set_convolution_nd_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.get_convolution_nd_descriptor.html">pycudnn.get_convolution_nd_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.get_convolution_nd_forward_output_dim.html">pycudnn.get_convolution_nd_forward_output_dim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.find_convolution_forward_algorithm.html">pycudnn.find_convolution_forward_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.find_convolution_forward_algorithm_ex.html">pycudnn.find_convolution_forward_algorithm_ex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.get_convolution_forward_algorithm.html">pycudnn.get_convolution_forward_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.get_convolution_forward_workspace_size.html">pycudnn.get_convolution_forward_workspace_size</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.convolution_forward.html">pycudnn.convolution_forward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.convolution_backward_bias.html">pycudnn.convolution_backward_bias</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.find_convolution_backward_filter_algorithm.html">pycudnn.find_convolution_backward_filter_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.find_convolution_backward_filter_algorithm_ex.html">pycudnn.find_convolution_backward_filter_algorithm_ex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.activation_forward.html">pycudnn.activation_forward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.activation_backward.html">pycudnn.activation_backward</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycudnn.set_activation_descriptor.html">pycudnn.set_activation_descriptor</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyCuDNN</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>pycudnn.SoftmaxAlgorithm</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/.generate/pycudnn.SoftmaxAlgorithm.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pycudnn-softmaxalgorithm">
+<h1>pycudnn.SoftmaxAlgorithm<a class="headerlink" href="#pycudnn-softmaxalgorithm" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="pycudnn.SoftmaxAlgorithm">
+<em class="property">class </em><code class="descclassname">pycudnn.</code><code class="descname">SoftmaxAlgorithm</code><a class="headerlink" href="#pycudnn.SoftmaxAlgorithm" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pycudnn.SoftmaxAlgorithm.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pycudnn.SoftmaxAlgorithm.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>__init__(self: pycudnn.SoftmaxAlgorithm, arg0: int) -&gt; None</li>
+<li>__init__(self: pycudnn.SoftmaxAlgorithm, arg0: int) -&gt; None</li>
+</ol>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#pycudnn.SoftmaxAlgorithm.__init__" title="pycudnn.SoftmaxAlgorithm.__init__"><code class="xref py py-obj docutils literal"><span class="pre">__init__</span></code></a>(*args,&nbsp;**kwargs)</td>
+<td>Overloaded function.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">CUDNN_SOFTMAX_ACCURATE</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">CUDNN_SOFTMAX_FAST</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">CUDNN_SOFTMAX_LOG</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pycudnn.SoftmaxMode.html" class="btn btn-neutral float-right" title="pycudnn.SoftmaxMode" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pycudnn.SamplerType.html" class="btn btn-neutral" title="pycudnn.SamplerType" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Konstantyn Komarov.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
