@@ -1508,7 +1508,7 @@ PYBIND11_PLUGIN(pycudnn) {
     --------
 
     .. autosummary::
-       :toctree: _generate
+       :toctree: .generate
 
        ActivationDescriptor
        ConvolutionBwdDataAlgoPerf
@@ -1530,7 +1530,7 @@ PYBIND11_PLUGIN(pycudnn) {
     ------
 
     .. autosummary::
-       :toctree: _generate
+       :toctree: .generate
 
        ActivationMode
        BatchNormMode
@@ -1561,7 +1561,7 @@ PYBIND11_PLUGIN(pycudnn) {
     ----------
 
     .. autosummary::
-       :toctree: _generate
+       :toctree: .generate
 
        get_version
        get_error_string
