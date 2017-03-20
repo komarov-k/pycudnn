@@ -1,0 +1,588 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to PyCuDNN’s documentation! &mdash; PyCuDNN 0.0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="PyCuDNN 0.0.3 documentation" href="#"/>
+        <link rel="next" title="pycudnn.ActivationDescriptor" href=".generate/pycudnn.ActivationDescriptor.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> PyCuDNN
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ActivationDescriptor.html">pycudnn.ActivationDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ConvolutionBwdDataAlgoPerf.html">pycudnn.ConvolutionBwdDataAlgoPerf</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ConvolutionDescriptor.html">pycudnn.ConvolutionDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.FilterDescriptor.html">pycudnn.FilterDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.DropoutDescriptor.html">pycudnn.DropoutDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.Handle.html">pycudnn.Handle</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.OpTensorDescriptor.html">pycudnn.OpTensorDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.PoolingDescriptor.html">pycudnn.PoolingDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.LRNDescriptor.html">pycudnn.LRNDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.RNNDescriptor.html">pycudnn.RNNDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.SpatialTransformerDescriptor.html">pycudnn.SpatialTransformerDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.TensorDescriptor.html">pycudnn.TensorDescriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ConvolutionBwdFilterAlgoPerf.html">pycudnn.ConvolutionBwdFilterAlgoPerf</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ConvolutionFwdAlgoPerf.html">pycudnn.ConvolutionFwdAlgoPerf</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ActivationMode.html">pycudnn.ActivationMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.BatchNormMode.html">pycudnn.BatchNormMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ConvolutionBwdDataAlgo.html">pycudnn.ConvolutionBwdDataAlgo</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ConvolutionBwdDataPreference.html">pycudnn.ConvolutionBwdDataPreference</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ConvolutionBwdFilterAlgo.html">pycudnn.ConvolutionBwdFilterAlgo</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ConvolutionBwdFilterPreference.html">pycudnn.ConvolutionBwdFilterPreference</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ConvolutionFwdAlgo.html">pycudnn.ConvolutionFwdAlgo</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ConvolutionFwdPreference.html">pycudnn.ConvolutionFwdPreference</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.ConvolutionMode.html">pycudnn.ConvolutionMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.DataType.html">pycudnn.DataType</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.DirectionMode.html">pycudnn.DirectionMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.DivNormMode.html">pycudnn.DivNormMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.LRNMode.html">pycudnn.LRNMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.NanPropagation.html">pycudnn.NanPropagation</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.OpTensorOp.html">pycudnn.OpTensorOp</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.PoolingMode.html">pycudnn.PoolingMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.RNNInputMode.html">pycudnn.RNNInputMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.RNNMode.html">pycudnn.RNNMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.SamplerType.html">pycudnn.SamplerType</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.SoftmaxAlgorithm.html">pycudnn.SoftmaxAlgorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.SoftmaxMode.html">pycudnn.SoftmaxMode</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.Status.html">pycudnn.Status</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.TensorFormat.html">pycudnn.TensorFormat</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.get_version.html">pycudnn.get_version</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.get_error_string.html">pycudnn.get_error_string</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.set_tensor_4d_descriptor.html">pycudnn.set_tensor_4d_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.set_tensor_4d_descriptor_ex.html">pycudnn.set_tensor_4d_descriptor_ex</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.get_tensor_4d_descriptor.html">pycudnn.get_tensor_4d_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.set_tensor_nd_descriptor.html">pycudnn.set_tensor_nd_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.get_tensor_nd_descriptor.html">pycudnn.get_tensor_nd_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.transform_tensor.html">pycudnn.transform_tensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.add_tensor.html">pycudnn.add_tensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.op_tensor.html">pycudnn.op_tensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.set_tensor.html">pycudnn.set_tensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.scale_tensor.html">pycudnn.scale_tensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.set_filter_4d_descriptor.html">pycudnn.set_filter_4d_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.get_filter_4d_descriptor.html">pycudnn.get_filter_4d_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.set_filter_nd_descriptor.html">pycudnn.set_filter_nd_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.get_filter_nd_descriptor.html">pycudnn.get_filter_nd_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.set_convolution_2d_descriptor.html">pycudnn.set_convolution_2d_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.get_convolution_2d_descriptor.html">pycudnn.get_convolution_2d_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.get_convolution_2d_forward_output_dim.html">pycudnn.get_convolution_2d_forward_output_dim</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.set_convolution_nd_descriptor.html">pycudnn.set_convolution_nd_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.get_convolution_nd_descriptor.html">pycudnn.get_convolution_nd_descriptor</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.get_convolution_nd_forward_output_dim.html">pycudnn.get_convolution_nd_forward_output_dim</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.find_convolution_forward_algorithm.html">pycudnn.find_convolution_forward_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.find_convolution_forward_algorithm_ex.html">pycudnn.find_convolution_forward_algorithm_ex</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.get_convolution_forward_algorithm.html">pycudnn.get_convolution_forward_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.get_convolution_forward_workspace_size.html">pycudnn.get_convolution_forward_workspace_size</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.convolution_forward.html">pycudnn.convolution_forward</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.convolution_backward_bias.html">pycudnn.convolution_backward_bias</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.find_convolution_backward_filter_algorithm.html">pycudnn.find_convolution_backward_filter_algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.find_convolution_backward_filter_algorithm_ex.html">pycudnn.find_convolution_backward_filter_algorithm_ex</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.activation_forward.html">pycudnn.activation_forward</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.activation_backward.html">pycudnn.activation_backward</a></li>
+<li class="toctree-l1"><a class="reference internal" href=".generate/pycudnn.set_activation_descriptor.html">pycudnn.set_activation_descriptor</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">PyCuDNN</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Welcome to PyCuDNN&#8217;s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-pycudnn-s-documentation">
+<h1>Welcome to PyCuDNN&#8217;s documentation!<a class="headerlink" href="#welcome-to-pycudnn-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Work in progress. More documentation is coming soon!</p>
+<div class="toctree-wrapper compound">
+</div>
+<span class="target" id="module-pycudnn"></span><div class="section" id="classes">
+<h2>Classes:<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.ActivationDescriptor.html#pycudnn.ActivationDescriptor" title="pycudnn.ActivationDescriptor"><code class="xref py py-obj docutils literal"><span class="pre">ActivationDescriptor</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.ConvolutionBwdDataAlgoPerf.html#pycudnn.ConvolutionBwdDataAlgoPerf" title="pycudnn.ConvolutionBwdDataAlgoPerf"><code class="xref py py-obj docutils literal"><span class="pre">ConvolutionBwdDataAlgoPerf</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.ConvolutionDescriptor.html#pycudnn.ConvolutionDescriptor" title="pycudnn.ConvolutionDescriptor"><code class="xref py py-obj docutils literal"><span class="pre">ConvolutionDescriptor</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.FilterDescriptor.html#pycudnn.FilterDescriptor" title="pycudnn.FilterDescriptor"><code class="xref py py-obj docutils literal"><span class="pre">FilterDescriptor</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.DropoutDescriptor.html#pycudnn.DropoutDescriptor" title="pycudnn.DropoutDescriptor"><code class="xref py py-obj docutils literal"><span class="pre">DropoutDescriptor</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.Handle.html#pycudnn.Handle" title="pycudnn.Handle"><code class="xref py py-obj docutils literal"><span class="pre">Handle</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.OpTensorDescriptor.html#pycudnn.OpTensorDescriptor" title="pycudnn.OpTensorDescriptor"><code class="xref py py-obj docutils literal"><span class="pre">OpTensorDescriptor</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.PoolingDescriptor.html#pycudnn.PoolingDescriptor" title="pycudnn.PoolingDescriptor"><code class="xref py py-obj docutils literal"><span class="pre">PoolingDescriptor</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.LRNDescriptor.html#pycudnn.LRNDescriptor" title="pycudnn.LRNDescriptor"><code class="xref py py-obj docutils literal"><span class="pre">LRNDescriptor</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.RNNDescriptor.html#pycudnn.RNNDescriptor" title="pycudnn.RNNDescriptor"><code class="xref py py-obj docutils literal"><span class="pre">RNNDescriptor</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.SpatialTransformerDescriptor.html#pycudnn.SpatialTransformerDescriptor" title="pycudnn.SpatialTransformerDescriptor"><code class="xref py py-obj docutils literal"><span class="pre">SpatialTransformerDescriptor</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.TensorDescriptor.html#pycudnn.TensorDescriptor" title="pycudnn.TensorDescriptor"><code class="xref py py-obj docutils literal"><span class="pre">TensorDescriptor</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.ConvolutionBwdFilterAlgoPerf.html#pycudnn.ConvolutionBwdFilterAlgoPerf" title="pycudnn.ConvolutionBwdFilterAlgoPerf"><code class="xref py py-obj docutils literal"><span class="pre">ConvolutionBwdFilterAlgoPerf</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.ConvolutionFwdAlgoPerf.html#pycudnn.ConvolutionFwdAlgoPerf" title="pycudnn.ConvolutionFwdAlgoPerf"><code class="xref py py-obj docutils literal"><span class="pre">ConvolutionFwdAlgoPerf</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="enums">
+<h2>Enums:<a class="headerlink" href="#enums" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.ActivationMode.html#pycudnn.ActivationMode" title="pycudnn.ActivationMode"><code class="xref py py-obj docutils literal"><span class="pre">ActivationMode</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.BatchNormMode.html#pycudnn.BatchNormMode" title="pycudnn.BatchNormMode"><code class="xref py py-obj docutils literal"><span class="pre">BatchNormMode</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.ConvolutionBwdDataAlgo.html#pycudnn.ConvolutionBwdDataAlgo" title="pycudnn.ConvolutionBwdDataAlgo"><code class="xref py py-obj docutils literal"><span class="pre">ConvolutionBwdDataAlgo</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.ConvolutionBwdDataPreference.html#pycudnn.ConvolutionBwdDataPreference" title="pycudnn.ConvolutionBwdDataPreference"><code class="xref py py-obj docutils literal"><span class="pre">ConvolutionBwdDataPreference</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.ConvolutionBwdFilterAlgo.html#pycudnn.ConvolutionBwdFilterAlgo" title="pycudnn.ConvolutionBwdFilterAlgo"><code class="xref py py-obj docutils literal"><span class="pre">ConvolutionBwdFilterAlgo</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.ConvolutionBwdFilterPreference.html#pycudnn.ConvolutionBwdFilterPreference" title="pycudnn.ConvolutionBwdFilterPreference"><code class="xref py py-obj docutils literal"><span class="pre">ConvolutionBwdFilterPreference</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.ConvolutionFwdAlgo.html#pycudnn.ConvolutionFwdAlgo" title="pycudnn.ConvolutionFwdAlgo"><code class="xref py py-obj docutils literal"><span class="pre">ConvolutionFwdAlgo</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.ConvolutionFwdPreference.html#pycudnn.ConvolutionFwdPreference" title="pycudnn.ConvolutionFwdPreference"><code class="xref py py-obj docutils literal"><span class="pre">ConvolutionFwdPreference</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.ConvolutionMode.html#pycudnn.ConvolutionMode" title="pycudnn.ConvolutionMode"><code class="xref py py-obj docutils literal"><span class="pre">ConvolutionMode</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.DataType.html#pycudnn.DataType" title="pycudnn.DataType"><code class="xref py py-obj docutils literal"><span class="pre">DataType</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.DirectionMode.html#pycudnn.DirectionMode" title="pycudnn.DirectionMode"><code class="xref py py-obj docutils literal"><span class="pre">DirectionMode</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.DivNormMode.html#pycudnn.DivNormMode" title="pycudnn.DivNormMode"><code class="xref py py-obj docutils literal"><span class="pre">DivNormMode</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.LRNMode.html#pycudnn.LRNMode" title="pycudnn.LRNMode"><code class="xref py py-obj docutils literal"><span class="pre">LRNMode</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.NanPropagation.html#pycudnn.NanPropagation" title="pycudnn.NanPropagation"><code class="xref py py-obj docutils literal"><span class="pre">NanPropagation</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.OpTensorOp.html#pycudnn.OpTensorOp" title="pycudnn.OpTensorOp"><code class="xref py py-obj docutils literal"><span class="pre">OpTensorOp</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.PoolingMode.html#pycudnn.PoolingMode" title="pycudnn.PoolingMode"><code class="xref py py-obj docutils literal"><span class="pre">PoolingMode</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.RNNInputMode.html#pycudnn.RNNInputMode" title="pycudnn.RNNInputMode"><code class="xref py py-obj docutils literal"><span class="pre">RNNInputMode</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.RNNMode.html#pycudnn.RNNMode" title="pycudnn.RNNMode"><code class="xref py py-obj docutils literal"><span class="pre">RNNMode</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.SamplerType.html#pycudnn.SamplerType" title="pycudnn.SamplerType"><code class="xref py py-obj docutils literal"><span class="pre">SamplerType</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.SoftmaxAlgorithm.html#pycudnn.SoftmaxAlgorithm" title="pycudnn.SoftmaxAlgorithm"><code class="xref py py-obj docutils literal"><span class="pre">SoftmaxAlgorithm</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.SoftmaxMode.html#pycudnn.SoftmaxMode" title="pycudnn.SoftmaxMode"><code class="xref py py-obj docutils literal"><span class="pre">SoftmaxMode</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.Status.html#pycudnn.Status" title="pycudnn.Status"><code class="xref py py-obj docutils literal"><span class="pre">Status</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.TensorFormat.html#pycudnn.TensorFormat" title="pycudnn.TensorFormat"><code class="xref py py-obj docutils literal"><span class="pre">TensorFormat</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="functions">
+<h2>Functions:<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.get_version.html#pycudnn.get_version" title="pycudnn.get_version"><code class="xref py py-obj docutils literal"><span class="pre">get_version</span></code></a>(()&nbsp;-&gt;&nbsp;int)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.get_error_string.html#pycudnn.get_error_string" title="pycudnn.get_error_string"><code class="xref py py-obj docutils literal"><span class="pre">get_error_string</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.set_tensor_4d_descriptor.html#pycudnn.set_tensor_4d_descriptor" title="pycudnn.set_tensor_4d_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">set_tensor_4d_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.set_tensor_4d_descriptor_ex.html#pycudnn.set_tensor_4d_descriptor_ex" title="pycudnn.set_tensor_4d_descriptor_ex"><code class="xref py py-obj docutils literal"><span class="pre">set_tensor_4d_descriptor_ex</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.get_tensor_4d_descriptor.html#pycudnn.get_tensor_4d_descriptor" title="pycudnn.get_tensor_4d_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">get_tensor_4d_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.set_tensor_nd_descriptor.html#pycudnn.set_tensor_nd_descriptor" title="pycudnn.set_tensor_nd_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">set_tensor_nd_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.get_tensor_nd_descriptor.html#pycudnn.get_tensor_nd_descriptor" title="pycudnn.get_tensor_nd_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">get_tensor_nd_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.transform_tensor.html#pycudnn.transform_tensor" title="pycudnn.transform_tensor"><code class="xref py py-obj docutils literal"><span class="pre">transform_tensor</span></code></a>((arg0:&nbsp;pycudnn.Handle,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.add_tensor.html#pycudnn.add_tensor" title="pycudnn.add_tensor"><code class="xref py py-obj docutils literal"><span class="pre">add_tensor</span></code></a>((arg0:&nbsp;pycudnn.Handle,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.op_tensor.html#pycudnn.op_tensor" title="pycudnn.op_tensor"><code class="xref py py-obj docutils literal"><span class="pre">op_tensor</span></code></a>((arg0:&nbsp;pycudnn.Handle,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.set_tensor.html#pycudnn.set_tensor" title="pycudnn.set_tensor"><code class="xref py py-obj docutils literal"><span class="pre">set_tensor</span></code></a>((arg0:&nbsp;pycudnn.Handle,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.scale_tensor.html#pycudnn.scale_tensor" title="pycudnn.scale_tensor"><code class="xref py py-obj docutils literal"><span class="pre">scale_tensor</span></code></a>((arg0:&nbsp;pycudnn.Handle,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.set_filter_4d_descriptor.html#pycudnn.set_filter_4d_descriptor" title="pycudnn.set_filter_4d_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">set_filter_4d_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.get_filter_4d_descriptor.html#pycudnn.get_filter_4d_descriptor" title="pycudnn.get_filter_4d_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">get_filter_4d_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.set_filter_nd_descriptor.html#pycudnn.set_filter_nd_descriptor" title="pycudnn.set_filter_nd_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">set_filter_nd_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.get_filter_nd_descriptor.html#pycudnn.get_filter_nd_descriptor" title="pycudnn.get_filter_nd_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">get_filter_nd_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.set_convolution_2d_descriptor.html#pycudnn.set_convolution_2d_descriptor" title="pycudnn.set_convolution_2d_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">set_convolution_2d_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.get_convolution_2d_descriptor.html#pycudnn.get_convolution_2d_descriptor" title="pycudnn.get_convolution_2d_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">get_convolution_2d_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.get_convolution_2d_forward_output_dim.html#pycudnn.get_convolution_2d_forward_output_dim" title="pycudnn.get_convolution_2d_forward_output_dim"><code class="xref py py-obj docutils literal"><span class="pre">get_convolution_2d_forward_output_dim</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.set_convolution_nd_descriptor.html#pycudnn.set_convolution_nd_descriptor" title="pycudnn.set_convolution_nd_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">set_convolution_nd_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.get_convolution_nd_descriptor.html#pycudnn.get_convolution_nd_descriptor" title="pycudnn.get_convolution_nd_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">get_convolution_nd_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.get_convolution_nd_forward_output_dim.html#pycudnn.get_convolution_nd_forward_output_dim" title="pycudnn.get_convolution_nd_forward_output_dim"><code class="xref py py-obj docutils literal"><span class="pre">get_convolution_nd_forward_output_dim</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.find_convolution_forward_algorithm.html#pycudnn.find_convolution_forward_algorithm" title="pycudnn.find_convolution_forward_algorithm"><code class="xref py py-obj docutils literal"><span class="pre">find_convolution_forward_algorithm</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.find_convolution_forward_algorithm_ex.html#pycudnn.find_convolution_forward_algorithm_ex" title="pycudnn.find_convolution_forward_algorithm_ex"><code class="xref py py-obj docutils literal"><span class="pre">find_convolution_forward_algorithm_ex</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.get_convolution_forward_algorithm.html#pycudnn.get_convolution_forward_algorithm" title="pycudnn.get_convolution_forward_algorithm"><code class="xref py py-obj docutils literal"><span class="pre">get_convolution_forward_algorithm</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.get_convolution_forward_workspace_size.html#pycudnn.get_convolution_forward_workspace_size" title="pycudnn.get_convolution_forward_workspace_size"><code class="xref py py-obj docutils literal"><span class="pre">get_convolution_forward_workspace_size</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.convolution_forward.html#pycudnn.convolution_forward" title="pycudnn.convolution_forward"><code class="xref py py-obj docutils literal"><span class="pre">convolution_forward</span></code></a>((arg0:&nbsp;pycudnn.Handle,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.convolution_backward_bias.html#pycudnn.convolution_backward_bias" title="pycudnn.convolution_backward_bias"><code class="xref py py-obj docutils literal"><span class="pre">convolution_backward_bias</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.find_convolution_backward_filter_algorithm.html#pycudnn.find_convolution_backward_filter_algorithm" title="pycudnn.find_convolution_backward_filter_algorithm"><code class="xref py py-obj docutils literal"><span class="pre">find_convolution_backward_filter_algorithm</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.find_convolution_backward_filter_algorithm_ex.html#pycudnn.find_convolution_backward_filter_algorithm_ex" title="pycudnn.find_convolution_backward_filter_algorithm_ex"><code class="xref py py-obj docutils literal"><span class="pre">find_convolution_backward_filter_algorithm_ex</span></code></a>(...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.activation_forward.html#pycudnn.activation_forward" title="pycudnn.activation_forward"><code class="xref py py-obj docutils literal"><span class="pre">activation_forward</span></code></a>((arg0:&nbsp;pycudnn.Handle,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href=".generate/pycudnn.activation_backward.html#pycudnn.activation_backward" title="pycudnn.activation_backward"><code class="xref py py-obj docutils literal"><span class="pre">activation_backward</span></code></a>((arg0:&nbsp;pycudnn.Handle,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href=".generate/pycudnn.set_activation_descriptor.html#pycudnn.set_activation_descriptor" title="pycudnn.set_activation_descriptor"><code class="xref py py-obj docutils literal"><span class="pre">set_activation_descriptor</span></code></a>(...)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="licensing">
+<h1>Licensing<a class="headerlink" href="#licensing" title="Permalink to this headline">¶</a></h1>
+<p>PyCuDNN is licensed to you under the MIT License:</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>Copyright (c) 2017 Konstantyn Komarov</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &#8220;Software&#8221;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.</p>
+<p class="last">THE SOFTWARE IS PROVIDED &#8220;AS IS&#8221;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Please, note that CuDNN is not distributed as part of PyCuDNN; you can refer to <a class="reference external" href="https://developer.nvidia.com/cudnn">https://developer.nvidia.com/cudnn</a> for more information regarding its licensing.</p>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href=".generate/pycudnn.ActivationDescriptor.html" class="btn btn-neutral float-right" title="pycudnn.ActivationDescriptor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Konstantyn Komarov.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.3',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
