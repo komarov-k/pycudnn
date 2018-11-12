@@ -332,7 +332,12 @@ namespace PyCuDNN {
     int v,
     int upscaleX,
     int upscaleY,
-    const ConvolutionMode& mode )
+    const ConvolutionMode& mode
+/* TODO : which version has dt ? */
+#if CUDNN_MAJOR >= 7
+    , const DataType& dt
+#endif
+    )
   {
 
     checkStatus(
@@ -344,12 +349,19 @@ namespace PyCuDNN {
         upscaleX,
         upscaleY,
         mode
+#if CUDNN_MAJOR >= 7
+        , dt
+#endif
       )
     );
   }
 
   auto getConvolution2dDescriptor( ConvolutionDescriptor& convDesc ) {
+#if CUDNN_MAJOR >= 7
+    std::tuple<int,int,int,int,int,int,ConvolutionMode,DataType> result;
+#else
     std::tuple<int,int,int,int,int,int,ConvolutionMode> result;
+#endif
 
     checkStatus(
       cudnnSetConvolution2dDescriptor(
@@ -361,6 +373,9 @@ namespace PyCuDNN {
         std::get<4>(result),
         std::get<5>(result),
         std::get<6>(result)
+#if CUDNN_MAJOR >= 7
+        , std::get<7>(result)
+#endif
       )
     );
 
