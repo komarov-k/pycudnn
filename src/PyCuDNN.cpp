@@ -333,8 +333,8 @@ namespace PyCuDNN {
     int upscaleX,
     int upscaleY,
     const ConvolutionMode& mode
-/* TODO : which version has dt ? */
-#if CUDNN_MAJOR >= 7
+    /* cudnn v6.0 add DataType param */
+#if CUDNN_MAJOR >= 6
     , const DataType& dt
 #endif
     )
@@ -349,7 +349,7 @@ namespace PyCuDNN {
         upscaleX,
         upscaleY,
         mode
-#if CUDNN_MAJOR >= 7
+#if CUDNN_MAJOR >= 6
         , dt
 #endif
       )
@@ -357,24 +357,24 @@ namespace PyCuDNN {
   }
 
   auto getConvolution2dDescriptor( ConvolutionDescriptor& convDesc ) {
-#if CUDNN_MAJOR >= 7
+#if CUDNN_MAJOR >= 6
     std::tuple<int,int,int,int,int,int,ConvolutionMode,DataType> result;
 #else
     std::tuple<int,int,int,int,int,int,ConvolutionMode> result;
 #endif
 
     checkStatus(
-      cudnnSetConvolution2dDescriptor(
+      cudnnGetConvolution2dDescriptor(
         convDesc,
-        std::get<0>(result),
-        std::get<1>(result),
-        std::get<2>(result),
-        std::get<3>(result),
-        std::get<4>(result),
-        std::get<5>(result),
-        std::get<6>(result)
-#if CUDNN_MAJOR >= 7
-        , std::get<7>(result)
+        &std::get<0>(result),
+        &std::get<1>(result),
+        &std::get<2>(result),
+        &std::get<3>(result),
+        &std::get<4>(result),
+        &std::get<5>(result),
+        &std::get<6>(result)
+#if CUDNN_MAJOR >= 6
+        , &std::get<7>(result)
 #endif
       )
     );
