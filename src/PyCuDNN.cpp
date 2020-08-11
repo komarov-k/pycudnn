@@ -332,7 +332,12 @@ namespace PyCuDNN {
     int v,
     int upscaleX,
     int upscaleY,
-    const ConvolutionMode& mode )
+    const ConvolutionMode& mode
+    /* cudnn v6.0 add DataType param */
+#if CUDNN_MAJOR >= 6
+    , const DataType& dt
+#endif
+    )
   {
 
     checkStatus(
@@ -344,23 +349,33 @@ namespace PyCuDNN {
         upscaleX,
         upscaleY,
         mode
+#if CUDNN_MAJOR >= 6
+        , dt
+#endif
       )
     );
   }
 
   auto getConvolution2dDescriptor( ConvolutionDescriptor& convDesc ) {
+#if CUDNN_MAJOR >= 6
+    std::tuple<int,int,int,int,int,int,ConvolutionMode,DataType> result;
+#else
     std::tuple<int,int,int,int,int,int,ConvolutionMode> result;
+#endif
 
     checkStatus(
-      cudnnSetConvolution2dDescriptor(
+      cudnnGetConvolution2dDescriptor(
         convDesc,
-        std::get<0>(result),
-        std::get<1>(result),
-        std::get<2>(result),
-        std::get<3>(result),
-        std::get<4>(result),
-        std::get<5>(result),
-        std::get<6>(result)
+        &std::get<0>(result),
+        &std::get<1>(result),
+        &std::get<2>(result),
+        &std::get<3>(result),
+        &std::get<4>(result),
+        &std::get<5>(result),
+        &std::get<6>(result)
+#if CUDNN_MAJOR >= 6
+        , &std::get<7>(result)
+#endif
       )
     );
 
@@ -562,6 +577,7 @@ namespace PyCuDNN {
     return perfResults;
   }
 
+#if CUDNN_VERSION < 8000
   auto getConvolutionForwardAlgorithm (
     Handle& handle,
     TensorDescriptor& xDesc,
@@ -587,6 +603,7 @@ namespace PyCuDNN {
 
     return result;
   }
+#endif // CUDNN_VERSION
 
   auto convolutionForward (
     Handle&                                   handle,
@@ -791,6 +808,7 @@ namespace PyCuDNN {
     // TODO: implement this...
   }
 
+#if CUDNN_VERSION < 8000
   auto getConvolutionBackwardDataAlgorithm (
     const Handle&                             handle,
     const FilterDescriptor&                   wDesc,
@@ -803,6 +821,7 @@ namespace PyCuDNN {
   {
     // TODO: implement this...
   }
+#endif // CUDNN_VERSION
 
   auto getConvolutionBackwardDataWorkspaceSize (
     const Handle&                             handle,
@@ -1679,6 +1698,7 @@ PYBIND11_PLUGIN(pycudnn) {
         CUDNN_CONVOLUTION_BWD_DATA_ALGO_WINOGRAD_NONFUSED)
     .export_values();
 
+#if CUDNN_VERSION < 8000
   py::enum_<ConvolutionBwdDataPreference>(m, "ConvolutionBwdDataPreference")
     .value("CUDNN_CONVOLUTION_BWD_DATA_NO_WORKSPACE",
         CUDNN_CONVOLUTION_BWD_DATA_NO_WORKSPACE)
@@ -1687,6 +1707,7 @@ PYBIND11_PLUGIN(pycudnn) {
     .value("CUDNN_CONVOLUTION_BWD_DATA_SPECIFY_WORKSPACE_LIMIT",
         CUDNN_CONVOLUTION_BWD_DATA_SPECIFY_WORKSPACE_LIMIT)
     .export_values();
+#endif // CUDNN_VERSION
 
   py::enum_<ConvolutionBwdFilterAlgo>(m, "ConvolutionBwdFilterAlgo")
     .value("CUDNN_CONVOLUTION_BWD_FILTER_ALGO_0",
@@ -1711,6 +1732,7 @@ PYBIND11_PLUGIN(pycudnn) {
     .def_property_readonly("memory",
       [](const ConvolutionBwdFilterAlgoPerf& self) { return self.memory; });
 
+#if CUDNN_VERSION < 8000
   py::enum_<ConvolutionBwdFilterPreference>(m, "ConvolutionBwdFilterPreference")
     .value("CUDNN_CONVOLUTION_BWD_FILTER_NO_WORKSPACE",
         CUDNN_CONVOLUTION_BWD_FILTER_NO_WORKSPACE)
@@ -1719,6 +1741,7 @@ PYBIND11_PLUGIN(pycudnn) {
     .value("CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT",
         CUDNN_CONVOLUTION_BWD_FILTER_SPECIFY_WORKSPACE_LIMIT)
     .export_values();
+#endif // CUDNN_VERSION
 
   py::enum_<ConvolutionFwdAlgo>(m, "ConvolutionFwdAlgo")
     .value("CUDNN_CONVOLUTION_FWD_ALGO_IMPLICIT_GEMM",
@@ -1749,6 +1772,7 @@ PYBIND11_PLUGIN(pycudnn) {
     .def_property_readonly("memory",
       [](const ConvolutionFwdAlgoPerf& self) { return self.memory; });
 
+#if CUDNN_VERSION < 8000
   py::enum_<ConvolutionFwdPreference>(m, "ConvolutionFwdPreference")
     .value("CUDNN_CONVOLUTION_FWD_NO_WORKSPACE",
         CUDNN_CONVOLUTION_FWD_NO_WORKSPACE)
@@ -1757,6 +1781,7 @@ PYBIND11_PLUGIN(pycudnn) {
     .value("CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT",
         CUDNN_CONVOLUTION_FWD_SPECIFY_WORKSPACE_LIMIT)
     .export_values();
+#endif // CUDNN_VERSION
 
   py::enum_<ConvolutionMode>(m, "ConvolutionMode")
     .value("CUDNN_CONVOLUTION",
@@ -1919,8 +1944,10 @@ PYBIND11_PLUGIN(pycudnn) {
   m.def("get_convolution_nd_forward_output_dim", &getConvolutionNdForwardOutputDim);
   m.def("find_convolution_forward_algorithm", &findConvolutionForwardAlgorithm);
   m.def("find_convolution_forward_algorithm_ex", &findConvolutionForwardAlgorithmEx);
+#if CUDNN_VERSION < 8000
   m.def("get_convolution_forward_algorithm", &getConvolutionForwardAlgorithm);
   m.def("get_convolution_forward_workspace_size", &getConvolutionForwardAlgorithm);
+#endif // CUDNN_VERSION
   m.def("convolution_forward", &convolutionForward);
   m.def("convolution_backward_bias", &convolutionBackwardBias);
   m.def("find_convolution_backward_filter_algorithm", &findConvolutionBackwardFilterAlgorithm);
